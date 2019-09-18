@@ -1,0 +1,70 @@
+<!--pages/flex/flex.wxml-->
+<view class='slider'>
+    <swiper indicator-dots="{{ true }}" autoplay="{{ true }}" interval="2500" duration="400" circular="{{ true }}">
+        <swiper-item>
+            <image src="https://image.suning.cn/uimg/aps/material/153820445234116791.jpg" width="375" height="150"  mode="aspectFill" />
+        </swiper-item>
+        <swiper-item>
+            <image src="https://image3.suning.cn/uimg/cms/img/153853498201585303.jpg" width="375" height="150" mode="aspectFill" />
+        </swiper-item>
+        <swiper-item>
+            <image src="https://image.suning.cn/uimg/aps/material/153838522153970426.jpg" width="375" height="150" mode="aspectFill" />
+        </swiper-item>
+    </swiper>
+</view>
+<!-- 首页导航分区 -->
+<view class='index-nav'>
+    <navigator class='nav-item'url='../swiper/swiper'>
+        <image src='https://image3.suning.cn/uimg/cms/img/153804504628577288.png'></image>
+        <text>swiper组件</text>
+    </navigator>
+    <navigator class='nav-item'>
+        <image src='https://image1.suning.cn/uimg/cms/img/153804507827351388.png'></image>
+        <text>Tab组件</text>
+    </navigator>
+    <navigator class='nav-item' url="../layout/layout">
+        <image src='https://image3.suning.cn/uimg/cms/img/153838666910977641.gif'></image>
+        <text>layout3</text>
+    </navigator>
+    <navigator class='nav-item' url="../props/props">
+        <image src='https://image5.suning.cn/uimg/cms/img/153804514816040882.png'></image>
+        <text>父子组件传值初体验</text>
+    </navigator>
+    <navigator class='nav-item' url="../wux/wux">
+        <image src='https://image3.suning.cn/uimg/cms/img/153804520798724660.png'></image>
+        <text>wux小程序组件库</text>
+    </navigator>
+    <navigator class='nav-item'  url="../tabtwo/tabtwo">
+        <image src='https://image1.suning.cn/uimg/cms/img/153804524042080436.png'></image>
+        <text>tab2</text>
+    </navigator>
+    <navigator class='nav-item'>
+        <image src='https://image1.suning.cn/uimg/cms/img/153804526974755934.png'></image>
+        <text>组件7</text>
+    </navigator>
+    <navigator class='nav-item'>
+        <image src='https://image2.suning.cn/uimg/cms/img/153804529990764934.png'></image>
+        <text>组件8</text>
+    </navigator>
+    <navigator class='nav-item'>
+        <image src='https://image5.suning.cn/uimg/cms/img/153804533219056487.png'></image>
+        <text>组件9</text>
+    </navigator>
+</view>
+ 
+<!-- 间隔 -->
+<view class='divider'></view>
+ 
+<!-- 首页入口分区 -->
+<view class='index-enter'>
+    <navigator class='enter-item'>
+      <image src='https://image1.suning.cn/uimg/b2c/qrqm/0000000000000000000102654187_200x200.jpg' mode='aspectFit'></image>
+    </navigator>
+    <navigator class='enter-item'>
+      <image src='https://image1.suning.cn/uimg/b2c/qrqm/0000000000000000000121615083_200x200.jpg' mode='aspectFit'></image>
+    </navigator>
+    </view>
+<view class="container-flex">
+
+</view>
+

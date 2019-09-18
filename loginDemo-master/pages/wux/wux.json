@@ -1,0 +1,10 @@
+{
+    "navigationBarTitleText": "Grid",
+    "usingComponents": {
+      "wux-tabs": "../../wux/tabs/index",
+      "wux-tab": "../../wux/tab/index",
+      "wux-grids": "../../wux/grids/index",
+      "wux-grid": "../../wux/grid/index",
+      "wux-popover": "../../wux/popover/index"
+    }
+}

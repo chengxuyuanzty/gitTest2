@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/main/main",
+    "pages/flex/flex",
+    "pages/swiper/swiper",
+    "pages/tab/tab",
+    "pages/layout/layout",
+    "component/child1/child1",
+    "pages/props/props",
+    "component/phone/phone",
+    "pages/wux/wux",
+    "pages/tabtwo/tabtwo"
+  ],
+  "tabBar": {
+    "borderStyle": "white",
+    "list": [
+      {
+        "text": "TM",
+        "pagePath": "pages/main/main",
+        "iconPath": "images/store.png",
+        "selectedIconPath": "images/store-selected.png"
+      },
+      {
+        "text": "贝贝",
+        "pagePath": "pages/flex/flex",
+        "iconPath": "images/store.png",
+        "selectedIconPath": "images/store-selected.png"
+      },
+      {
+        "text": "豆瓣",
+        "pagePath": "pages/tab/tab",
+        "iconPath": "images/store.png",
+        "selectedIconPath": "images/store-selected.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "授权登录",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
+}

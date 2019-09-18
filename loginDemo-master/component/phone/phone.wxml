@@ -1,0 +1,4 @@
+<!--component/phone/phone.wxml-->
+<view>
+<text>输入框{{phone}}:</text><input type='number' bindinput="bindCode" style='width:200rpx;height:98rpx' value='{{code}}'></input>
+</view>

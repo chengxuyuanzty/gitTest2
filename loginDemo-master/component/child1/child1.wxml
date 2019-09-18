@@ -1,0 +1,11 @@
+<!--component/child1/child1.wxml-->
+<view style='border:2px solid gray;'>
+<view style='text-align:center;'>我是子组件child1</view>
+<view>A中传入的参数：{{paramAtoB}}</view>
+</view>
+
+<view style='border:2px solid gray;'>
+<view style='text-align:center;'>子组件child1</view>
+<view style='text-align:center;'>礼尚往来 开始向父组件传值</view>
+<button bindtap='change'>向props中传入参数</button>
+</view>
