@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "componentA": "../../component/child1/child1",
-    "componentB": "../../component/phone/phone"
-  }
-}
