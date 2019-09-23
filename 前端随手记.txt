@@ -1,0 +1,324 @@
+:page-sizes="[5, 8, 10]"  //这是下拉框可以选择的，每选择一行，要展示多少内容
+
+:page-size="pagesize"         //显示当前页的条数
+
+:total="userList.length">    //这是显示总共有多少数据，
+
+
+
+currentPage:1, //初始页
+pagesize:10,    //    每页的数据
+
+
+// 初始页currentPage、初始每页数据数pagesize和数据data
+
+
+handleSizeChange: function (size) {
+        this.pagesize = size;
+        console.log(this.pagesize)  //每页下拉显示数据
+        },
+handleCurrentChange: function(currentPage){
+        this.currentPage = currentPage;
+         console.log(this.currentPage)  //点击第几页
+        },
+
+
+table 选中在table下方显示选中的数据
+
+const newArr = [];
+this.checkedDataList.map((item) => newArr.findIndex(({
+ id
+}) => id === item.id) === -1 && newArr.push(item));
+      this.checkedDataList = newArr;
+
+indexOf去重
+var arr = [1, 1, 1, 2, 3, 3, 4, 5];
+var myArry = []; //定义一个新的数组
+for (var i = 0; i < arr.length; i++) {
+    if (myArry.indexOf(arr[i]) == -1) { //根据索引值来判断myArry数组中有没有存在该元素，indexOf(i)==-1就是没有该元素
+        myArry.push(arr[i])  //把遍历到的值添加到myArry数组中去
+    }
+}
+
+
+var arr = [1, 2, 2, 3, 4, 5, 5, 6, 7, 7,8,8,0,8,6,3,4,56,2];
+var arr2 = arr.filter((x, index,self)=>self.indexOf(x)===index)  
+console.log(arr2); //[1, 2, 3, 4, 5, 6, 7, 8, 0, 56]
+
+var arr = ['10','12','23','44','42']
+var newArr = arr.filter(item => item.indexOf('2')<0) 
+console.log(newArr)
+
+var arr = [20,30,50, 96,50]
+var newArr = arr.filter(item => item>40)  
+console.log(newArr)
+
+
+    // 高级搜索
+    highSearch () {
+      this.searchForm.pageNum = 1
+      this.searchForm.period = this.month ? this.month.split('-')[0] + '' + this.month.split('-')[1] : ''
+      delete this.searchForm.keyWord
+      this.getTabList(this.searchForm)
+    },
+
+data() {
+    const validatePhone = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('手机号不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validateIps = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入IP'))
+      } else {
+        if (isIpList(value)) {
+          callback()
+        } else {
+          callback(new Error('ip格式错误,多个ip请用英文逗号分隔！'))
+        }
+      }
+    }
+    return{
+      rules: {
+        phone: [
+          { required: true, validator: validatePhone, trigger: 'blur' }
+        ],
+        ips: [
+          { validator: validateIps, trigger: 'blur' }
+        ]
+      }
+    }
+  }
+
+
+    timeOut(time) {
+      let time1 = Date.parse(Date())
+      let time2 = Date.parse(time)
+      return time2 < time1
+    },
+
+      this.formData.goodslist.forEach((item, i) => {
+        let date = ''
+        if (!item.candate) {
+          date = 0
+        } else {
+          date = item.candate
+        }
+        var myDate = new Date()
+        myDate.setDate(myDate.getDate() + parseFloat(date))
+        this.formData.goodslist[i].date = new Date(myDate).getFullYear() + '-' + (new Date(myDate).getMonth() + 1) + '-' + new Date(myDate).getDate()
+      })
+
+
+
+    // 判断是否区号
+    verifyArea() {
+      var reg = /^0\d{2,3}/
+      if (!reg.test(this.formData.area)) {
+        this.$message('您输入的区号的格式不正确！')
+        this.formData.area = ''
+      }
+    },
+    // 判断是否电话号码
+    verifyTelephone() {
+      var reg = /^\d{7,8}$/
+      if (!reg.test(this.formData.telephone)) {
+        this.$message('您输入的电话号码的格式不正确！')
+        this.formData.telephone = ''
+      }
+    },
+    // 判断是否电话
+    verifyPhone() {
+      var reg = /^[1][3,4,5,7,8][0-9]{9}$/
+      if (!reg.test(this.formData.phone)) {
+        this.$message('您输入的手机号的格式不正确！')
+        this.formData.phone = ''
+      }
+    },
+    // 判断是否邮箱
+    verifyEmail() {
+      var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
+      if (!reg.test(this.formData.email)) {
+        this.$message('您输入的邮箱的格式不正确！')
+        this.formData.email = ''
+      }
+    },
+
+    timeTem(time) {
+      let time1 = Date.parse(Date())
+      let time2 = Date.parse(time)
+      return time2 > time1
+    },
+
+
+    var validateInput = (rule, value, callback) => {
+      if (!checkSpecialKey(value)) {
+        callback(new Error('不能含有特殊字符！！'))
+      } else {
+        callback()
+      }
+    }
+    var validateInput = (rule, value, callback) => {
+      var reg = /^[1][3,4,5,7,8][0-9]{9}$/
+      if (!reg.test((value))) {
+        callback(new Error('您输入的手机号的格式不正确！'))
+      } else {
+        callback()
+      }
+    }
+{ validator: validateInput, trigger: ['blur', 'change'] },
+
+
+
+
+   getLastMonth() { // 获取上个月日期
+      var date = new Date()
+      var year = date.getFullYear()
+      var month = date.getMonth()
+      if (month === 0) {
+        year = year - 1
+        month = 12
+      }
+      month = month < 10 ? '0' + month : month
+      return year + '-' + month
+    },
+
+
+
+/**
+ * 处理空的参数
+ * @param datas
+ * @returns
+ */
+function cleanParams(datas){
+	var v_data ={};
+	for(var a in datas){
+		if (datas[a] != null && datas[a] instanceof Array) {
+			v_data[a]=[];
+		}else {
+			v_data[a] = null;
+		}
+	}
+	return v_data;
+}
+
+
+
+Vue.prototype.HOST = `${process.env.HOST_URL}/file/certification`
+
+const defaultOptions = {
+  name: 'file',
+  url: `${process.env.HOST_URL}/file/certification`,
+  fileSize: 2,
+  limit: 1,
+  buttonText: '上传',
+  fileList: []
+}
+
+
+
+
+
+          let content = rt.content
+          this.noJdGoodsDetailForm = content
+          let urlidArr = content.urlid.split(',')
+          let picUrlList = urlidArr.map((item, index) => {
+            return {
+              url: content.url[index],
+              urlid: item
+            }
+          })
+
+
+    closeDialog(formName) {
+      this.dialogFormVisible = false
+      if (this.$refs[formName] !== undefined) { //click弹出的时候$refs并没有获取到dom元素导致 'resetFields' of undefined 
+        this.$refs[formName].resetFields()
+      }
+    },
+-------------------------------------------------------------------------------
+git config --global user.name ""
+git config --global user.email ""
+
+git init 创建
+
+git add readme.txt    {git add . （将当前工作区的所有文件存放到暂存区）}
+
+git commit -m 'readme.txt'
+
+
+git remote add origin master "https://github.com/starForLove/weixin-buycar"
+
+git push origin master
+
+如果出现上传不成功，可能是因为你远程仓库已经存在文件，和你本地仓库文件不一致，或者你本地仓库的文件不是最新的，这个时候，你需要执行下面这行命令：
+git pull origin master
+
+将远程仓库的文件重新下载到本地仓库，然后执行
+git push orgin master
+
+ git --help 帮助命令
+git pull origin master 将远程仓库里面的项目拉下来
+ dir  查看有哪些文件夹
+使用git删除github上的文件夹
+git rm -r --cached .idea  #--cached不会把本地文件.idea删除
+git commit -m '备注'
+git push -u origin master
+
+
+
+
+1、添加所有文件到暂存区
+不加参数默认为将修改操作的文件和未跟踪新添加的文件添加到git系统的暂存区，注意不包括删除。
+git add *
+git add .
+git add -u .
+-u 表示将已跟踪文件中的修改和删除的文件添加到暂存区，不包括新增加的文件，注意这些被删除的文件被加入到暂存区再被提交并推送到服务器的版本库之后这个文件就会从git系统中消失了。
+git add -A .
+-A 表示将所有的已跟踪的文件的修改与删除和新增的未跟踪的文件都添加到暂存区。
+
+添加某个文件类型到暂存区，比如所有的 .html 文件。
+git add *.html
+
+添加整个文件夹到暂存区，比如根目录的 index 文件夹。
+git add index/
+添加某个文件或者某个文件夹中的某个文件到暂存区 ，比如 index 下的 index.html 文件。
+git add index/index.html
+
+一些自动生成的，比如日志文件，或者编译过程中创建的临时文件等，不需要纳入 Git 的管理，在这种情况下，我们可以创建一个名为 .gitignore 的文件，来跳过上传。
+--------------------------------------------------------------------------------
+https://github.com/MrZHLF/vue-admin-system
+
+vscode  snippet设置自动生成vue组件代码块
+
+node 中间层 
+node框架 express koa egg.js
+
+模板引擎 art-template
+
+核心模块
+app.js核心文件
+router模块 路由
+controller模块 方法
+model模块 数据
+
+优化
+缓存
+redis缓存
+nginx
+
+
+node能做的
+搭建全站
+中间层开发
+模拟数据接口
+制作项目构建工具
+
+不再简单地前端：
+1、利用node去把项目优化
+2、利用webpack,配合上自己的手写的工具，让前端团队更好工作
+3、开发组件库、工具库与团队标准
+4、探索最适合项目的前端架构
