@@ -186,7 +186,29 @@ data() {
       return year + '-' + month
     },
 
-
+    // 日期格式
+    crtTimeFtt(val) {
+      if (val !== null) {
+        var date = new Date(val)
+        let year = date.getFullYear()
+        let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
+        let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+        return year + '-' + m + '-' + day
+      }
+    },
+    // 日期格式
+    crtTimeHms(val) {
+      if (val !== null) {
+        var date = new Date(val)
+        let year = date.getFullYear()
+        let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
+        let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+        let H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+        let M = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+        let S = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+        return year + '-' + month + '-' + day + ' ' + H + ':' + M + ':' + S
+      }
+    },
 
 /**
  * 处理空的参数
@@ -255,6 +277,82 @@ if(!Object.prototype.hasOwnProperty.call(people,key)) continue;
 
 
 para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
+
+
+    // 导出模板
+    getExportModule (type) {
+      getExportModule(type).then(res => {
+        if (res) {
+          let aEle = document.createElement('a')
+          aEle.setAttribute('href', res.url)
+          aEle.setAttribute('download', res.newName)
+          aEle.click()
+        }
+      })
+    },
+
+
+
+
+
+
+-------------------------------------------------------------------------------
+    getExportLink () {
+      if (this.recordsList.length === 0) {
+        this.$message({
+          type: 'warning',
+          showClose: true,
+          duration: 0,
+          message: this.$t('elseText.noDataToExport')
+        })
+        return
+      }
+      this.exportLink = testUrl + '/prada/housingContract/accrualRecordExport'
+      let list = ['keyWord', 'period', 'accrualNum', 'createby']
+      let paramstring = '?'
+      for (let key in this.searchForm) {
+        if (list.indexOf(key) > -1) {
+          paramstring += (key + '=' + this.searchForm[key] + '&')
+        }
+      }
+      this.exportLink += paramstring.slice(0, -1)
+      window.open(this.exportLink)
+    },
+
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(0,-1); // 从索引0开始，到索引最后一个结束，不包括最后索引项
+ 
+(6)?["A", "B", "C", "D", "E", "F"]//控制台输出
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(-1); //最后索引项的获取
+ 
+["G"]//控制台输出
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(0,6); // 从索引0开始，到索引6结束，不包括最后索引项
+ 
+(6)?["A", "B", "C", "D", "E", "F"]//控制台输出
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(0,7); //  从索引0开始，到索引6结束，获取全部元素
+ 
+(7)?["A", "B", "C", "D", "E", "F", "G"]
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(); // 默认获取全部元素
+ 
+(7)?["A", "B", "C", "D", "E", "F", "G"]
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(-2,-1); // 倒序索引6开始，倒数第二个元素
+ 
+["F"]//控制台输出
+ 
+var arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+arr.slice(-3,-1); // 倒序索引6开始，倒数第3个元素开始，不包括最后一个元素
+ 
+(2)?["E", "F"]//控制台输出
 -------------------------------------------------------------------------------
 git config --global user.name ""
 git config --global user.email ""
