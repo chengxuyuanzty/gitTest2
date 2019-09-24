@@ -291,11 +291,36 @@ para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new
       })
     },
 
+//清空el-input-number默认值
+<el-input-number @focus="handlerInputNumberFocus" :min="0"></el-input-number>
+
+handlerInputNumberFocus(e){
+if(e.target.value === '0'){
+	e.target.value = ''
+}
+}
+
+JSON.parse(JSON.stringifg(row))
+
+let host = location.href.match(/^http.+#/)[0]
+window.open(host + '/houseRent/contractDetails')
 
 
+    // 表单内容去首尾空格
+    handlerBlurRemoveSpace (prop) {
+      this.mainContractInfo[prop] = this.mainContractInfo[prop].replace(/(^ +)|( +$)/g, '')
+      // replace(/(^ +)|( +$)/g, '')
+    },
 
-
-
+//自动计算免租天数
+getFreeDays(row, index) {
+if(row.startDate && row.endDate){
+let result = new Date(row.endDate).getTime() = new Date(row.startDate).getTime()
+result = result / (24 * 60 * 60 *1000) +1
+let item = this.freeRentPeriodTableData[index]
+this.$set(this.freeRentPeriodTableData, index, Object.assign({}, item, {rentFreeDays:result}))
+}
+}
 -------------------------------------------------------------------------------
     getExportLink () {
       if (this.recordsList.length === 0) {
