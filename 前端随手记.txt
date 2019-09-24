@@ -239,6 +239,22 @@ const defaultOptions = {
         this.$refs[formName].resetFields()
       }
     },
+
+Object.prototype.score = '97';
+let people = {
+    name:'Ð¡ºì',
+    age : 15,   
+}
+for(let key in people ){
+if(!Object.prototype.hasOwnProperty.call(people,key)) continue;
+    console.log(key+':'+people[key]);
+}
+>>>>>>
+>name:Ð¡ºì
+>age:1
+
+
+para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
 -------------------------------------------------------------------------------
 git config --global user.name ""
 git config --global user.email ""
