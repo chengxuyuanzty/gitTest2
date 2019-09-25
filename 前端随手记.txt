@@ -23,6 +23,21 @@ handleCurrentChange: function(currentPage){
         },
 
 
+@close = closeModuleDialog()
+
+closeModuleDialog(){
+this.moduleDialog= false
+
+this.clearVail()
+}
+clearVail(){
+this.$refs['forgetPass'].clearValidate()
+}
+
+
+
+
+
 table 选中在table下方显示选中的数据
 
 const newArr = [];
@@ -112,7 +127,16 @@ data() {
         this.formData.goodslist[i].date = new Date(myDate).getFullYear() + '-' + (new Date(myDate).getMonth() + 1) + '-' + new Date(myDate).getDate()
       })
 
-
+  data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.forgetPassForm.newpassword) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
 
     // 判断是否区号
     verifyArea() {
@@ -321,6 +345,146 @@ let item = this.freeRentPeriodTableData[index]
 this.$set(this.freeRentPeriodTableData, index, Object.assign({}, item, {rentFreeDays:result}))
 }
 }
+--------------------------------------------------------------------------------
+promise
+
+// export async function login(params) {
+//   const res = await fetch({
+//     url: '/loginuser',
+//     method: 'GET',
+//     params,
+//     loading: true
+//   }).catch(e => Promise.reject(e))
+//   if (res.code === 0) {
+//     store.commit('setUserInfo', res.content)
+//   }
+//   return Promise.resolve(res)
+// }
+
+--------------------------------------------------
+
+router.beforeEach(async (to, from, next) => {
+})
+    const rt = await loginGetToken()
+    console.log(rt)
+    if (rt && rt.content.token) {
+      localStorage.setItem('token', rt.content.token)
+    }
+
+export async function loginGetToken(params) {
+  const rt = await fetch({
+    url: '/getaccesstoken',
+    method: 'GET',
+    params
+  }).catch(e => Promise.reject(e))
+  return Promise.resolve(rt)
+}
+--------------------------------------------------------
+    const rt = loginGetToken().then(res => {
+      console.log(res)
+    })
+    console.log(rt)
+
+export async function loginGetToken(params) {
+  const rt = await fetch({
+    url: '/getaccesstoken',
+    method: 'GET',
+    params
+  })
+  return rt
+}
+
+--------------------------------------------------------
+      getOrganizationTree().then((rt) => {
+        this.loading = false
+        this.content = rt
+      }).catch(() => {
+        this.loading = false
+      })
+
+// 获取组织树
+function filterArray(data, pid) {
+  const tree = []
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].pid === pid) {
+      const obj = data[i]
+      const temp = filterArray(data, data[i].id)
+      if (temp.length > 0) {
+        obj.children = temp
+      }
+      tree.push(obj)
+    }
+  }
+  return tree
+}
+export async function getOrganizationTree(params) {
+  const rt = await fetch({
+    url: '/common/searchCompanyLargearea/treelist',
+    method: 'GET',
+    params
+  }).catch(e => Promise.reject(e))
+  const data = filterArray(rt.content, 0)
+  return Promise.resolve(data)
+}
+------------------------------------------------------------
+export function refeshUserInfo() {
+  return new Promise((resolve, reject) => {
+    fetch({
+      url: '/OauthLoginUser',
+      method: 'GET',
+      params: {
+        access_token: localStorage.getItem('token')
+      }
+    }).then(rt => {
+      if (rt.content.userid) {
+        store.commit('app/setUserInfo', rt.content)
+        resolve(rt)
+      } else {
+        localStorage.removeItem('token')
+      }
+    }).catch(e => {
+      localStorage.removeItem('token')
+      reject(e)
+    })
+  })
+}
+
+
+
+
+
+
+mounted:{
+        this.getGoodsDetails(this.ids, type, code).then(data => {
+          this.rtData = data
+          if (this.rtData.goods[0].supplier === '京东') {
+            this.purtype = '京东采购'
+          } else {
+            this.purtype = '非京东采购'
+          }
+        })
+}
+methods:{
+    getGoodsDetails (id, type, code) {
+      let that = this
+      that.loading = true
+      return new Promise(function (resolve, reject) {
+        getpurchaseBilData({
+          ids: id,
+          userid: that.$store.state.app.userInfo.userid,
+          materialClassify: code
+        }).then((rt) => {
+          if (rt.code === 0) {
+            that.loading = false
+            resolve(rt.content)
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
+    },
+}
+
 -------------------------------------------------------------------------------
     getExportLink () {
       if (this.recordsList.length === 0) {
