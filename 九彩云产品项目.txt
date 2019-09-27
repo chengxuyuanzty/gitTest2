@@ -1,0 +1,3442 @@
+1、订单管理---售后记录（后端：史建亮） 前端页面完成 
+
+2、管理中心---对账人员设置（后端：成泽琦）---》完成 
+
+3、业务报表---月结单报表：京东订单月结单详情汇总 （后端：成泽琦）
+
+4、业务报表---待开票：京东开票信息填写（后端：成泽琦）
+
+5、京东详情页（后端：丁慧敏）
+
+6、物资分类管理---添加京东分类关联（后端：胡官韬）
+
+
+price单价(本位币)(含税)
+hsprice单价(本位币)(含税)
+bhsprice单价(本位币)(不含税)rmbhsprice单价(人民币)(含税)
+rmbbhsprice单价(人民币)(不含税)
+totalhsprice总价(本位币)(含税)
+
+totalbhsprice总价(本位币)(不含税)
+rmbtotalhsprice总价(人民币)(含税)(实付)
+rmbtotalbhsprice总价(人民币)(不含税)(实付)
+
+
+
+goodsrmbhsprice单价(人民币)(含税)(商品小计)
+goodsrmbbhsprice单价(人民币)(不含税)(商品小计)
+goodstotalhsprice总价(本位币)(含税)(商品小计)
+goodstotalbhsprice总价(本位币)(不含税)(商品小计)
+
+
+日期中文：
+<script src="../../lib/bootstrap-datetimepicker-master/bootstrap-datetimepicker.zh-CN.js"></script>
+var timeRefrsh = function () {
+        $(".times").datetimepicker('remove');
+        setTimeout(function () {
+            $(".times").datetimepicker({
+                language:  'zh-CN',
+                format: 'yyyy-mm-dd',
+                todayBtn: true,
+                autoclose: true,
+                pickerPosition: 'top-right',
+                minView: 2,
+                maxView: 1
+            });
+        }, 100)
+    }
+language:  'zh-CN',
+
+===========================页面日期替换成中文 修改的页面========================================
+
+putaway 物资分类
+advertisingSpaceList 广告位清单
+/orders2/view/orders.html#/failed 下单失败记录
+/management/view/management.html#/salebill 销售量排行
+/supplier/view/supplierput.html  供应商录入
+
+================================修改过的页面==================================================9.17
+orderFormBills 
+orderpurchaseBills
+orders2
+purchaseBills
+putaway
+shopIssueBills
+supplier
+supRelation
+advertisingSpaceList 
+applyForAfterSales
+=================================修改过的页面==================================================9.18
+orders2->savebox 草稿箱
+applyForAfterSales
+url.js
+detailsService
+orderFormBills
+orderpurchaseBills
+orders2
+purchaseBills
+
+
+
+==============================================================================================
+			detailsService服务详情页面
+			checkForPersonnel对账设置  
+            applyForAfterSales申请售后
+			动的页面后面更新
+			orders2
+			authorRole 
+			putaway
+			config/url.js
+================================================================================================	
+	ng-change="referInt(shopPX3)"
+	    //判断是否为整数
+    $scope.referInt = function(str){
+        var reg = /^[\+\-]?(([1-9]\d*)|\d)$/;
+        if(!reg.test(str)){
+            alert("请输入整数!");
+            $scope.shopPX1 = "";
+            $scope.shopPX2 = "";
+            $scope.shopPX3 = "";
+        }
+    }
+	
+	    // //配置分页基本参数
+    $scope.paginationConf = {
+        currentPage: 1,
+        itemsPerPage: 10,
+        perPageOptions: [5, 10, 15, 20, 50],
+        onChange: function () {
+
+        }
+    };
+
+    $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', getListss);
+	
+	            pagenum: $scope.paginationConf.currentPage,
+            pagesize: $scope.paginationConf.itemsPerPage
+			
+			$scope.paginationConf.totalItems = resp.content.totalcount;
+			
+			
+			// angular.forEach($scope.threeInfo,function (data,index) {
+            //     data.isCheck = false;
+            // })
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = false;
+            })
+			
+			
+			
+			<table class="table table-fixed table-bordered margin-t15 remove-margin-b">
+                    <tr>
+                        <th class="w3 text-center align-middle"><input type="checkbox" ng-model="allChecked" ng-change="allSelect()"/></th>
+                        <th class="w5 text-center align-middle">序号</th>
+                        <th class="text-center align-middle">商品名称</th>
+                        <th class="w15 text-center align-middle">价格</th>
+                        <th class="w15 text-center align-middle">商品库存</th>
+                        <th class="w10 text-center align-middle">操作</th>
+                    </tr>
+                    <tr ng-repeat="data in goodslist.goodsList track by $index">
+                        <td class="text-center align-middle"><input type="checkbox" ng-model="data.isChecked" ng-change="ifOpt()"/></td>
+                        <td class="text-center align-middle" ng-bind="$index+1"></td>
+                        <td class="text-center align-middle" ng-bind="data.name"></td>
+                        <td class="text-center align-middle" ng-bind="data.price"></td>
+                        <td class="text-center align-middle" ng-bind="data.stock"></td>
+                        <td class="text-center align-middle"><span class="cursor-pointer" ng-click="joinAct($index)">加入满减活动</span></td>
+                    </tr>
+                </table>
+				
+				
+				
+				 //判断是否全选
+    $scope.allSelect = function(){
+        if($scope.allChecked){
+            $.each($scope.goodslist.goodsList,function(i,val){
+                val.isChecked = true;
+            })
+        }else{
+            $.each($scope.goodslist.goodsList,function(i,val){
+                val.isChecked = false;
+            })
+        }
+    }
+
+    $scope.ifOpt = function(){
+        var referTrue = 0;
+        var referFalse = 0;
+        $.each($scope.goodslist.goodsList,function(i,val){
+            console.log(val.isChecked);
+            if(val.isChecked){
+                referTrue ++;
+            }else{
+                referFalse ++;
+            }
+        });
+        if(referTrue == $scope.goodslist.goodsList.length){
+            $scope.allChecked = true;
+        }
+        else if(referFalse == $scope.goodslist.goodsList.length){
+            $scope.allChecked = false;
+        }
+    }
+
+    //加入满减
+    $scope.actGoods = [];
+    $scope.joinAct = function(index){
+        var arr = $scope.actGoods;
+        var tempArr = [];
+        arr.push($scope.goodslist.goodsList[index]);
+        $.each(arr,function(i,val){
+            var referrepeat = 0;
+            $.each(tempArr,function(j,item){
+                if(item.id == val.id){
+                    referrepeat ++;
+                    return false;
+                }
+            })
+            if(!referrepeat){
+                tempArr.push(val);
+            }
+        })
+        $scope.actGoods = tempArr;
+    }
+
+    //所有加入满减活动
+    $scope.alljoinact = function(){
+        var arr = $scope.actGoods;
+        var tempArr = [];
+        var referAll = 0;
+        $.each($scope.goodslist.goodsList,function(i,val){
+            if(val.isChecked){
+                referAll ++;
+            }
+        })
+        if(!referAll){
+            alert("请选择要加入的商品!");
+            return false;
+        }
+        $.each($scope.goodslist.goodsList,function(i,val){
+            if(val.isChecked){
+                arr.push(val);
+            }
+        })
+        $.each(arr,function(i,val){
+            var referrepeat = 0;
+            $.each(tempArr,function(j,item){
+                if(item.id == val.id){
+                    referrepeat ++;
+                    return false;
+                }
+            })
+            if(!referrepeat){
+                tempArr.push(val);
+            }
+        })
+        $scope.actGoods = tempArr;
+    }
+	
+	
+        $scope.searchLi = function () {
+            shoppingListDel.get({
+                keyword:$scope.shopInfo,
+                pageIndex:'',
+                categoryid:'',
+                brand:'',
+                model:'',
+                userid: $scope.userId
+            }, function (resp) {
+                var url = "../../buyList/view/buyList.html?keyword=" + encodeURI( $scope.shopInfo) +
+                    "&pageIndex=&categoryid=&brand=&model=";
+                window.location.href = url;
+                // //console.log(resp.content);
+            }, function (err) {
+                // //console.log(err);
+            })
+        }
+		
+		skuId和sku  都传wareid
+		查询支持的服务类型 传参时 加orderid  goodsid
+		
+		
+	var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;邮箱正则表达式
+	
+	//判断是否电话
+    $scope.verifyphone = function(){
+        console.log($scope.good.phone);
+        var reg = /^[1][3,4,5,7,8][0-9]{9}$/;//手机格式正则表达式
+        if(!reg.test($scope.good.phone)){
+            alert("您输入的手机号的格式不正确！");
+            $scope.good.phone = "";
+        }
+    }
+	
+	webuploader.js
+	
+	修改的页面：
+	orderFormBills
+	orderneassaryDetail
+	shoplssueBills
+	orders2
+	config
+	
+	 $scope.userId
+	 
+	 
+	            var strAddress = $scope.good.deliveryaddress;
+                var arrAddress = strAddress.split(' ');
+                $scope.deliveryaddress  = arrAddress[arrAddress.length - 1]
+                $scope.good.inputAddress = $scope.deliveryaddress;
+				
+				
+				
+				
+				 input::-webkit-input-placeholder {
+ 9         /* placeholder颜色  */
+10         color: #aab2bd;
+11         /* placeholder字体大小  */
+12         font-size: 12px;
+13         /* placeholder位置  */
+14         text-align: right;
+15     }
+
+
+
+                       <p>
+                                                <span>需求员 : </span>
+                                                <span ng-bind="data.requirementername"></span>
+                                            </p>
+                                            <p class="margin-b5">
+                                                <span>成本中心 : </span>
+                                                <input class="costCenter" type="text" ng-model="data.costcenter" ng-readonly="typeReadyonly"/>
+                                            </p>
+											
+											
+											
+											
+											
+											<input type="checkbox" style="margin-left: 26px;" id="CheckAll" ng-model="choseAllCheck" ng-change="allCheck()">
+											
+											 <input type="checkbox" ng-model="info.isCheck" ng-change="ThreeInfoEve()" name="info.name" class="input-p-left" id="catId">
+											 
+											 
+											 
+											 
+											     //全选框开始
+    $scope.allCheck = function() {
+        if($scope.choseAllCheck){
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = true;
+            })
+        }else{
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = false;
+            })
+        }
+    }
+    //全选框结束
+	
+	
+	
+	    $scope.ThreeInfoEve = function () {
+        console.log($scope.threeInfo);
+        var referTrue = 0;
+        $.each($scope.threeInfo,function(i,val){
+            console.log(val.isCheck);
+            if(val.isCheck){
+                referTrue ++;
+            }
+        });
+        if(referTrue == $scope.threeInfo.length){
+            $scope.choseAllCheck = true;
+        }
+        else {
+            $scope.choseAllCheck = false;
+        }
+        console.log($scope.jdCategorys);
+    }
+	
+	
+	
+
+http://test.jiucaiyun.cn/ip/file/file/certification/jd_goods_catagory_marry.xlsx
+
+ng-bind="good.invoiceinfo.invoicetype == '1' ? '普通发票':(good.invoiceinfo.invoicetype == '2' ? '增值税发票':'电子普通发票')"
+
+ng-bind="good.invoiceinfo.invoicetype == '2' ? '增值税发票':'电子普通发票'"
+
+
+// ordersApp.filter("afterFilter",function(){
+//     return function(str){
+//         if(str=="1"){
+//             return "维修";
+//         }else if(str=="2"){
+//             return "退货";
+//         }else if(str=="3"){
+//             return "换货";
+//         }
+//     }
+//
+// });
+
+
+-------------------------------------------------------
+IT商品库
+
+._choss {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background: #f5f5f5;
+}
+
+._choss div {
+    float: left;
+    margin-left: 10px;
+}
+
+
+._choss div input {
+    float: left;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: 1px solid #d6d5d5;
+}
+
+
+<select type="text" class="inpt col-xs-7 ng-pristine ng-valid ng-scope ng-touched"">
+<option  value="" selected="selected">CNY人民币</option>
+</select>
+
+
+   .n_text {
+    height: 38px;
+    line-height: 38px;
+    float: left;
+    position: relative;
+    font-size: 14px;
+    width: 70px;
+    cursor: pointer;
+    text-align: center;
+    width: 106px;
+
+}
+
+runningStock商品库存流水
+
+1、序号
+2、商品名称
+3、商品编号
+4、现有库存
+5、库存更新数量
+6、更新后库存
+7、现有冻结库存
+8、冻结库存更新量
+9、更新后冻结库存
+10、操作类型
+11、对应单号
+12、操作人
+13、操作时间
+
+
+
+
+entryOrdersList入库订单列表
+
+receiveOrdersList 领用订单列表
+
+returnRegistrationList归还登记订单列表
+
+inventoryOrdersList盘点订单列表
+
+reportLossOrdersList报失报损订单列表
+
+addReceiveOrders新增领用单   33个字段
+
+addReturnRegistration新增归还登记单
+
+addStorage 
+
+checkBreakageGoods
+ItGoodsLibrary
+
+newAddItGoods
+
+runingStock
+
+\Charts\view\charts
+\Charts\js\charts.app.js
+charts.js
+charts.service
+runningStock.controller.js
+waitTickets.controller.js
+
+
+\management\view\management.html
+\management\js\management.app.js
+management.js
+
+\misJd\js\misJdDet.controller.js
+
+\orders2\view\afterSaleRecord
+entryOrderList
+inventoryOrders
+receiveOrdersList
+reimburseList
+reportLossOrders
+returnRegistration
+
+\orders2\js\orders.app
+orders.service.js
+orders.controller.js
+
+\orders2\css\orders.css
+
+
+
+
+
+
+/ip/ip/management/view/management.html
+/ip/ip/management/view/management.html#jdGoodsLibrary
+/ip/ip/management/view/management.html#fotonJdLibrary
+goodsHistroy
+taxManagement
+exManagement
+historyprice
+
+
+
+
+
+
+
+
+/ip/ip/orders2/view/orders.html
+/ip/ip/orders2/view/orders.html#jdReturn
+/ip/ip/orders2/view/orders.html#afterSalesRecord
+
+receiverOrder
+bulkOrder
+
+
+
+/ip/ip/Charts/view/charts.html#/months
+
+/ip/ip/checkForPersonnel/view/checkForPersonnel.html
+
+
+
+
+ parseFloat($scope.goodTable[i]["count"])*parseFloat($scope.goodTable[i].taxunitprice);
+ 
+     $scope.detaisShop = function () {
+        if ($(".chosed").length > 1) {
+            window.parent.alert("不能编辑多个商品.");
+            $("._shopOne").removeClass("chosed");
+            return;
+        } else if ($(".chosed").length < 1) {
+            window.parent.alert("请选择商品.");
+            return;
+        } else {
+            for (var i = 0; i < $("._shopOne").length; i++) {
+                if ($("._shopOne").eq(i).hasClass("chosed")) {
+                    if ($scope.shops[i].supplierid == 1) {
+                        window.parent.alert("京东商品不能编辑");
+                        return;
+                    }
+                    if ($scope.shops[i].state == 1) {
+                        window.parent.alert("已上架商品不能编辑");
+                        return;
+                    }
+                    window.parent.open('../../misJd/view/misJdDet.html?type=underGound&goodsid=' + $scope.shops[i].id);
+                }
+            }
+        }
+    }
+		
+		
+		
+		 window.parent.layer.alert("添加成功关闭弹窗", {
+                          btn: ['确定'],
+                          btn1: function () {
+                            window.close();
+                            window.layer.closeAll();
+                          },
+                        }
+                      )
+											
+											
+					layer.alert("确认导出？", {
+           btn: ['确认', '取消'],
+           btn1: function () {
+               window.layer.closeAll();
+           },
+           btn2: function () {
+               layer.closeAll();
+           }
+       })
+											
+											
+											
+											
+											if ($(".chosed").length > 1) {
+      window.parent.alert("不能查看多个商品.");
+      $("._shopOne").removeClass("chosed");
+      return;
+    } else if ($(".chosed").length < 1) {
+      window.parent.alert("请选择商品.");
+      return;
+    } else {
+      for (var i = 0; i < $("._shopOne").length; i++) {
+        if ($("._shopOne").eq(i).hasClass("chosed")) {
+          window.parent.open('../../newAddItGoods/view/misJdDet.html?checklimit=yes&type=underGound&goodsid=' + $scope.shops[i].id);
+        }
+      }
+    }
+		
+		
+		reportloss报失报损
+		
+		
+		生产环境退出地址:http://ohs.uaes.com:7777/oam/server/logout?end_url=http://174.34.53.84:7777/ip
+		
+		
+		测试环境退出地址:http://uatohs.uaes.com:7777/oam/server/logout?end_url=http://174.34.59.107:7777/ip
+		
+	------------------------------------------
+	  11.5
+		把IT商品库上传svn
+		把商品评价上传snv
+		addReceiveOrders
+		addStorage。
+		checkBreakageGoods。
+		config
+		  config.js。
+			url.js。
+			
+		ItGoodsLibrary。
+		newAdditGoods。
+		orders2。
+		   html
+		   entryOrderList
+			 inventoryOrders
+			 jdreturn
+			 receiveOrdersList
+			 reporLossOrders
+			 js
+			 orders.controller
+			 orders.service
+			 css
+			 orders.css
+			 
+			 
+		ip/ip/stockControl/view/orders.html#entryOrders
+		
+		
+		
+		
+		
+		                        case "payList":
+                            if (datas[m].state == '0') {
+                                $(".payList").css("display","none");
+
+                            } else if (datas[m].state == '1') {
+                                $(".payList").css("display","block");
+                                $(".payList").attr("disabled","disabled");
+                            }else {
+                                $(".payList").css("display","block");
+                            }
+                            break;
+		
+		
+		top: -357px;
+		height: 357px;
+		
+		-------------------------------------------------------
+		苏宁接口联调
+		         <div _ngcontent-c3="" class="form-group">
+              <label _ngcontent-c3="" class="col-sm-2 control-label">性别</label>
+              <div _ngcontent-c3="" class="col-sm-4">
+                <label _ngcontent-c3="" class="radio-inline">
+                  <input _ngcontent-c3="" ng-model="sex" value="男" type="radio" class="ng-untouched ng-pristine ng-valid"> 男
+                </label>
+                <label _ngcontent-c3="" class="radio-inline">
+                  <input _ngcontent-c3="" ng-model="sex" value="女" type="radio" class="ng-untouched ng-pristine ng-valid"> 女
+                </label>
+              </div>
+            </div>
+						
+						    //判断是否为整数
+    $scope.referInt = function(str){
+        var reg = /^[\+\-]?(([1-9]\d*)|\d)$/;
+        if(!reg.test(str)){
+            alert("请输入整数!");
+            $scope.shopPX1 = "";
+            $scope.shopPX2 = "";
+            $scope.shopPX3 = "";
+        }
+    }
+		
+		
+		{
+    margin-top: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+		}
+		
+		
+		
+		._shopL {
+    float: right;
+    width: 80%;
+    background: #fff;
+    min-height: 480px;
+    padding: 0 15px;
+}
+{
+    height: 350px;
+    width: 99%;
+    margin-right: 10px;
+    overflow-x: scroll;
+}
+
+
+
+    $scope.search3 = function (x) {
+        $scope.postData.state = x;
+        if($("._status").eq(x-1).is(":checked")) {
+            $scope._state = x;
+            $("._status").eq(x-1).parent().siblings().children('input').prop("checked",false);
+        }else{
+            $scope._state = '';
+            $scope.postData.state = '';
+        }
+        GetAllEmployee();
+    }
+		
+		
+		获取京东一级分类645行  putaway
+		
+		
+		
+		            $scope.choseAllCheck = false;
+
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = false;
+            })
+						
+						
+						
+						              var url = "../../addNew/view/addNew.html";
+              window.open(url);
+							
+							
+							electricitySalesLibrary电商销售库
+							
+				$scope.goodsCategory.FTNPThreeCategoryCode = value.id;
+        $scope.goodsCategory.FTNPThreeCategoryName = value.name;
+        $scope.goodsCategory.FTNPSecondCategoryCode = value.secondid;
+        $scope.goodsCategory.FTNPSecondCategoryName = value.secondname;
+        $scope.goodsCategory.FTNPFirstCategoryCode = value.firstid;
+        $scope.goodsCategory.FTNPFirstCategoryName = value.firstname;
+				
+				
+				https://blog.csdn.net/weixin_41316842/article/details/80398239
+				
+				  alert(resp.message);
+					
+					
+					
+					
+					
+					$(document).ready(function(){
+				
+	//为当前窗口添加滚动条滚动事件（适用于所有可滚动的元素和 window 对象（浏览器窗口））
+	$(window).scroll(function(){
+		 //创建一个变量存储当前窗口下移的高度
+		var scroTop = $(window).scrollTop();
+		//判断当前窗口滚动高度
+		//如果大于100，则显示顶部元素，否则隐藏顶部元素
+		if(scroTop>100){
+			$('.return_top').fadeIn(500);
+		}else{
+			$('.return_top').fadeOut(500);
+		}
+	);
+		    	
+	//为返回顶部元素添加点击事件
+	$('.return_top').click(function(){
+		//将当前窗口的内容区滚动高度改为0，即顶部
+		$("html,body").animate({scrollTop:0},"fast");
+	});
+});
+
+
+animation: toolbar-scaleIn .35s ease-in-out;
+
+
+
+
+addNew。
+charts 库存流水。
+
+checkForPersonnel 对账人员设置。
+
+chooseGoods 商品选购。
+
+config。
+
+eletricitySalesLibrary 电商销售库。
+
+hadSubmit已提交商品  。
+
+management。。
+
+navigation。
+
+putaway 物资分类。
+
+shoppingcontrol。
+
+
+checkForPersonnel
+
+/ip/ip/checkForPersonnel/view/checkForPersonnel.html
+
+authContr
+authority
+publicjs.js
+
+---------------------------------------------
+收藏夹  collectLists
+
+
+    $scope.supplier = function (data) {
+        console.log(data)
+        var url = "../../buyList/view/buyList.html?keyword=&pageIndex=&categoryid=&brand=&model=&supplierid=" + data.id+"&suppliernum=" + data.num;
+        newWin(url)
+    }
+		
+		ng-click="supplier(list)"
+		
+		
+		
+		.like{ font-size:66px;  color:#ccc; cursor:pointer;}
+.cs{color:#f00;}
+
+<p class="like">&#10084;</p>
+
+<script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(function () {            
+            $(".like").click(function () {
+                $(this).toggleClass('cs');                
+            })
+        })
+    </script>
+		
+		
+	-------------------------------------------------	
+		
+		<button class="follow" onclick="show1()">
+                    <span class="true">关注</span>
+                    <span class="false">已关注</span>
+                </button>
+
+
+*关注按钮*/
+.follow{
+    display: block;
+    width: 25%;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: 8px;
+    background: rgba(233, 7, 7, 0);
+    border: 1px solid red;
+    border-radius: 5px;
+    color: red;
+    outline: none;
+}
+.follow:hover{
+    background: rgba(233, 7, 7, 0.2);
+}
+.true{
+    display: inline;
+}
+.false{
+    display: none;
+}
+
+
+function show1(){
+    var aTrue = document.getElementsByClassName(true);
+    var aFalse = document.getElementsByClassName(false);
+    var x=1;
+    if ( aTrue[0].style.display!="none"){
+        aTrue[0].style.display="none";
+        aFalse[0].style.display="inline";
+    }else{
+        aTrue[0].style.display="inline";
+        aFalse[0].style.display="none";
+    }
+}
+
+
+二
+function show1(){
+    var aTrue = document.getElementById(true);
+    var aFalse = document.getElementById(false);
+    if ( aTrue.style.display!="none"){
+        aTrue.style.display="none";
+        aFalse.style.display="inline";
+    }else{
+        aTrue.style.display="inline";
+        aFalse.style.display="none";
+    }
+};
+
+
+
+
+
+    //全选框开始
+    $scope.allCheck = function() {
+        if($scope.choseAllCheck){
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = true;
+            })
+        }else{
+            $.each($scope.threeInfo,function(i,val){
+                val.isCheck = false;
+            })
+        }
+    }
+    //全选框结束
+		
+		
+		    $rootScope.jdCategorys = [];
+    $scope.ThreeInfoEve = function () {
+        console.log($scope.threeInfo);
+        var referTrue = 0;
+        $.each($scope.threeInfo,function(i,val){
+            console.log(val.isCheck);
+            if(val.isCheck){
+                referTrue ++;
+            }
+        });
+        if(referTrue == $scope.threeInfo.length){
+            $scope.choseAllCheck = true;
+        }
+        else {
+            $scope.choseAllCheck = false;
+        }
+        console.log($scope.jdCategorys);
+    }
+		
+		        $.each($scope.threeInfo,function(i,val){
+            console.log($scope.threeInfo);
+            if(val.isCheck){
+                console.log(val.isCheck);
+                $rootScope.jdCategorys.push({
+                    FTNPFirstCategoryCode: $rootScope.OneIdss,
+                    FTNPFirstCategoryName: $rootScope.OneIpNamess,
+                    FTNPSecondCategoryCode: $rootScope.TwoIdss,
+                    FTNPSecondCategoryName: $rootScope.TwoIpNamess,
+                    FTNPThreeCategoryCode:$rootScope.threeIdss,
+                    FTNPThreeCategoryName:$rootScope.threeIpNamess,
+                    JdFTNPFirstCategoryCode: $rootScope.OnecatId,
+                    JdFTNPFirstCategoryName:  $rootScope.OnecatName,
+                    JdFTNPSecondCategoryCode: $rootScope.TwocatId,
+                    JdFTNPSecondCategoryName: $rootScope.TwocatName,
+                    JdFTNPThreeCategoryCode:  $scope.threeInfo[i].catId,
+                    JdFTNPThreeCategoryName: $scope.threeInfo[i].name,
+
+                });
+            }
+        })
+				
+				
+				
+				ng-if导致 ng-change失效？
+				
+				
+				$scope.choseCart = function (id,prices) {
+        $scope.price = prices;
+        $scope.goodid = id,;
+       
+        $("#myModal").modal("toggle");
+    }
+		
+		     $scope.choseCount = 1;
+		    $scope.addCart = function (data) {
+        if (!$scope.choseCount || $scope.choseCount < 1) {
+            $scope.messChose = "数量不能为空或者负。";
+            return;
+        }
+        console.log($scope.choseCount);
+        if(parseFloat($scope.choseCount) < parseFloat($scope.minimumquantity)){
+            alert("该商品起订量为"+$scope.minimumquantity+"，订购数量不能少于起订量！");
+            return ;
+        }
+
+        addShop.get({
+            userid: $scope.userId,
+            count:$scope.choseCount,
+            goodsid:$scope.goodid,
+            price:$scope.price,
+            cache: new Date().getTime(),
+            materialClassify:"A类"//$scope.materialClassify
+        }, function (resp) {
+            $("#myModal").modal("hide");
+            if(!resp.code){
+                alert(resp.message);
+                $scope.carCount += parseInt($scope.choseCount);
+                $scope.choseCount = 1;
+                $scope.goodid = '';
+                $scope.price = '';
+            }else{
+                alert(resp.message);
+                $scope.choseCount = 1;
+                $scope.goodid = '';
+                $scope.price = '';
+            }
+
+        }, function (err) {
+            // console.log(err);
+        });
+
+    }
+		
+		supplierid=1000000020
+		suppliernum=S2016120019
+		
+		supplierid: 100140862
+    suppliernum: S2016120019
+		
+		            if(list.suppliernum == "jd"){
+                window.open('../../shoppingJdDetail/view/shoppingDetail.html?id=' + list.wareid);
+                return false;
+            }
+						
+						
+						    //查看商品详情
+    $scope.fotonJdDetail = function(id){
+        var url = "../../shoppingJdDetail/view/shoppingDetail.html?id=" + id+"&first="+$scope.firstName
+            +"&second="+$scope.secondName+"&three="+$scope.thirdName+"&fourth="+$scope.fourthName+"&cartType=noGoods";
+        newWin(url);
+    }
+		
+		ng-click="fotonJdDetail(list.wareid)"
+		
+	
+		    $(".weihu1").click(function () {
+        if($(this).attr("disabled")){
+            return ;
+        }
+        window.location.href = "../../homepageSetting/view/homepage.html";
+    });
+		
+		window.location.href = "../../collectLists/view/collectLists.html";
+		
+		
+		
+		            $rootScope.goodState = resp.content[0].id;
+            $scope.goodsSate.push({
+            "goodsid":$rootScope.goodState
+            })
+            $rootScope.supplieridState = resp.content[0].supplierid;
+            $scope.sate.push({
+            "supplierid":$rootScope.supplieridState
+            })
+						
+						
+						
+						          //初始加载供应商状态
+          SuppliersSate.save({
+            userid: $scope.userId,
+            supplierids: $scope.sate
+          }, function (resp) {
+            $scope.states = resp.content[0].state;
+            var aTrue = document.getElementsByClassName(true);
+            var aFalse = document.getElementsByClassName(false);
+            if($scope.states == 1 || $scope.states == null){
+              aTrue[0].style.display="inline";
+              aFalse[0].style.display="none";
+            }else{
+              aTrue[0].style.display="none";
+              aFalse[0].style.display="inline";
+            }
+
+          }, function (err) {
+          })
+					
+					          //初始加载收藏商品状态
+          GoodsCollectSate.save({
+            userid: $scope.userId,
+            goodsids: $scope.goodsSate
+          }, function (resp) {
+            $scope.statess = resp.content[0].state;
+            if($scope.statess == 1 || $scope.statess == null){
+              $scope.heartemptyShow = true;
+              $scope.heartShow = false;
+            }else{
+              $scope.heartemptyShow = false;
+              $scope.heartShow = true;
+            }
+
+          }, function (err) {
+          })
+
+		
+		
+		
+		
+		            //    获取商品的评价
+            $scope.averageScore = $scope.grades[0].averageScore;
+            $scope.goodgrade = ($scope.grades[0].goodRate * 100).toFixed(2);
+            $scope.generalRate = ($scope.grades[0].generalRate * 100).toFixed(2);
+            $scope.center = $scope.generalRate.toString().substring(0,3);
+            $scope.poorRate = ($scope.grades[0].poorRate * 100).toFixed(2) ;
+            $scope.goodsid = resp.content.goodsid;
+            $scope.smallPicList = resp.content.image[$scope.sku];
+            $scope.bigPicUrl = $scope.smallPicList[0].path;
+            console.log($scope.yanbao)
+						
+						
+						
+	------------------------------------------
+	发布模块
+					collectLists 。
+					config/url.js。
+					electricitysalesLibrary 。
+					goodsDetailPreview 。
+				
+					shoppingdetail。
+					shoppingJdDetail。
+					shoppingSnDeatil。
+					
+					homepage
+					
+					
+					
+					
+					 <script type="text/javascript">
+        <!--
+        $(function () {
+            $("#list").hide();
+            $("#menu").hover(function () {
+                $("#list").show();
+            }, function () {
+                $("#list").hide();
+            })
+            // 鼠标移动到list的div上的时候list div不会被隐藏
+            $("#list").hover(function () {
+                $("#list").show();
+            }, function () {
+                $("#list").hide();
+            })
+        });
+        //-->
+    </script>
+		
+		
+		tabulous.js
+					
+					
+					
+					
+					----------------------------------------------------------------
+$scope.carsGoods = [];
+    cartList.get({
+      userid: $scope.userId,
+      cache: new Date().getTime(),
+      pagenum:$scope.paginationConfcartList.currentPage,
+      pagesize:$scope.paginationConfcartList.itemsPerPage
+    }, function (resp) {
+      if(!resp.code){
+
+        $.each(resp.content.body,function(i,val){
+          $.each(val.details,function(j,item){
+            $.each(item.goods,function(k,value){
+              var goods = value;
+              $scope.carsGoods.push(goods)
+            })
+          })
+        })
+       $scope.cartGoodsList = $scope.carsGoods;
+        $scope.checkAll = true;
+        //总价格开始
+        var sumNum = 0;
+        var sumMoney = 0;
+        $.each(resp.content.body,function(i,val){
+          $.each(val.details,function(j,item){
+            $.each(item.goods,function(k,value){
+                sumNum += parseFloat(value.count);
+                sumMoney += parseFloat(value.count)*parseFloat(value.rmbhsprice);
+            })
+          })
+        })
+        $scope.totalGdsNum = sumNum + "";
+        $scope.totalMoney = sumMoney.toFixed(2) + "";
+        //总价格结束
+        console.log($scope.cartGoodsList);
+      }else{
+        alert(resp.message);
+      }
+    }, function (err) {
+      console.log(err);
+    })
+					
+					
+					
+					通过script标签或import等方式引入hotcss.js，尽量靠前引入。
+					
+					npm install ajv@^6.0.0
+					cnpm install sass-loader --save-dev
+					npm i px2rem-loader
+	--------------------------------------------------------------------------
+	11.26九彩云产品BUG 改动的页面记录
+	商品管理--库存库点击编辑时，禁止修改库存信息 ，添加库存字段
+	ITgoodsLibrary。
+	newAddItGoods。
+	
+	库存库--入库登记
+	addStorage 。
+	
+	入库登记单 修改订单状态
+	stockControl----entryOrdersList.html。
+	
+	订单管理：京东退回订单 改成 电商退回订单
+	/orders2/view/orders.html#/jdReturn。
+	
+	商品管理：销售量排行榜：
+	suRelation
+	（没有搜索按钮 ，功能是：当选择日期后自动进行筛选） 
+	/management/view/management.html#/salebill
+	默认显示上月的排行（需要后端控制）
+	
+	首页退出功能被侧边栏覆盖
+	navigation。
+	
+	盘点单、报失报损单
+	demo环境 点击入库页面一直在加载 
+	config.js里面代码不是最新的
+	
+	企业库新增时抬头错误 
+	misJd
+	
+	供应商管理 联系人tab页 添加是否是主要联系人
+  /supplier/view/supplierput.html?supplierid=
+	接口需要修改一下 
+	
+	物资分类 putway
+	
+	供应商清单页 邮箱没显示
+	/buyList/view/buyList.html
+	
+	添加电商商品物资分类必填 单位必填
+	/addNew/view/addNew.html
+	
+	供应商录入企业简称加上必填图标和控制输入字数不能大于5
+	/supplier/view/supplierput.html?supplierid=
+	
+	系统管理-角色：添加角色。1、添加提交后提示成功，没关闭页面。2、再次点击提交时，没提示角色名称必填
+	authority
+	
+	首页商品详情，带出供应商名称错误。单位不是中文
+	shoppingDetail
+	
+	库存管理
+	stockControl
+	领用登记单BUG：【addReceiveOrders】
+	
+	归还登记单BUG:【addReturnRegistration】
+	
+	
+	
+	供应商管理-供应商列表：
+	supplier/view/supplierput.html?supplierid=1000000   005
+	供应商录入/编辑。联系方式tab，新增是否主要联系人字段
+	
+	系统管理中用管理模块 列表岗位信息没有岗位
+	employee
+	
+	
+	库存管理-》归还单 
+	stockControl/returnRegistration.html
+	
+	新增归还单
+	addReturnRegistration
+	
+	领用单列表信息按钮问题解决
+	
+	---------------------------------
+	
+	watch:{
+    'period': function(newVal,oldVal){
+        const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+        if(!regex.test(newVal)) {//如果小于等于零
+            this.period = oldVal //恢复原值
+        }
+    }
+}
+	
+	
+首页设置修改  homepage  。
+京东和苏宁详情 。
+
+新增入库单	addStorage。
+
+stockControl。
+
+	采购平台-供应商管理-供应商列表：供应商录入/编辑。发货地址必填标识加上，初始化为空。
+
+对账人员设置。。
+
+选择提交商品。
+
+九彩云详情。
+京东详情。
+苏宁详情。
+
+领用单列表和新增领用单页面。
+
+库存库商品 查看详情时页面数据为空问题。
+
+
+首页-右侧购物车快捷栏：信息展示不全。
+
+商品详情页：有效期没显示。（九彩云商品详情）（shoppingDetail）。
+
+shoppingDetail。
+
+goodsDetailPreview。
+
+collectLists。
+
+supplier供应商录入。
+
+addStorage
+库存库-入库：入库提交后应关闭入库登记页。。
+
+/ip/ip/homepageSetting/view/homepage.html
+
+主页维护
+weihu
+/ip/ip/homepage/view/homepage.html#weihu
+
+marketManagement 加一个css样式。
+expiregoods    删除一个css样式。
+
+orders2/orders.html  京东订单改成电商退回订单
+----------------------------------------------------12.5
+addReturnRegistration
+ 库存管理-归还登记单：新增。领用单选择时，显示的应该是已收货的领用登记单。现在显示了所有的。而且状态没显示错了问题
+ 
+ 购物车数量及总价不对 shoppingCart
+ 
+ 库存库页面布局更改   新需求ItGoodsLibrary
+
+ 电商库分类  和选择电商商品 两个页面
+	
+	京东详情地址  苏宁地址  下采购单 地址修改 
+	
+	config
+	homepage
+	lib
+	marketManagement
+	navigation
+	
+	orderForBills
+	
+	orders2
+	purchaseBills
+	
+	shoppingCart
+	shoppingControl
+	shoppingJdDetail
+	shoppingSnDetail
+	
+	-------------------------
+	电商选择商品 分类
+	
+	对账人员 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------
+点击左侧任意菜单栏时不能跳转到指定菜单栏模块。
+以【订单管理】模块为例：
+点击【售后记录】，但是跳转到了【我的订单】
+
+现所有模块中有左侧菜单栏的均有上述问题：
+订单管理、库存管理、商品管理、营销管理、供应商管理、业务报表、系统管理、
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	--------------------------------------
+	待解决：
+	库存库页面布局改成企业库布局
+	
+	苏宁详情无法添加购物车 报错
+	
+	
+	
+	苏宁每个商品加上分类 
+	http://test.jiucaiyun.cn/ip/goodsmanage/snGoods/list?userid=hugt
+	
+
+	
+	                    if(strlen($scope.cate7) >= 120){
+                        $scope.descript_j = j + 1;
+                        window.parent.layer.alert('第' + $scope.descript_j + '条商品描述字数不能大于120个字',{
+                            btn:['确定'],
+                            btn1:function(){
+                                window.parent.layer.closeAll();
+                            }
+                        })
+                        return false
+                    }
+										
+										
+										
+    $scope.savSup = function () {
+        if($scope.selectindex == ""){
+            layer.alert('请选择要保存的数据',{
+                btn:['确定'],
+                btn1:function(){
+                    window.layer.closeAll();
+                }
+            })
+            return false;
+        }
+        if($scope.suplists.length == 0){
+            layer.alert('请选择要保存的数据',{
+                btn:['确定'],
+                btn1:function(){
+                    window.layer.closeAll();
+                }
+            })
+            return false;
+        }
+        for(var i=0;i<$scope.suplists.length;i++){
+
+            if($scope.suplists[i].suppliername == ""){
+                alert('供应商名称不能为空');
+                return false
+            }
+
+            if($scope.suplists[i].price == ""){
+                alert('单价不能为空');
+                return false
+            }
+            if($('.choi').eq(i).is(':checked')){
+                var body = {
+                    goodsid:$scope.JdGoodsId,
+                    SuNumber:$scope.suplists[i].SuNumber,
+                    price:$scope.suplists[i].price,
+                    inputdate:$scope.suplists[i].date,
+                    oldsupplierid:$scope.suplists[i].oldsupplierid,
+                    cache: new Date().getTime()
+                }
+                $scope.subsup.push(body);
+            }
+
+        }
+        goSuReShip.save($scope.subsup,function (resp) {
+            if(resp.message == "success"){
+                layer.alert('保存成功',{
+                    btn:['确定'],
+                    btn1:function(){
+                        window.layer.closeAll();
+                        window.location.replace('../../management/view/management.html?ind=1');
+                        $scope.subsup = [];
+                    }
+                })
+            }
+
+        },function (err) {
+            //console.log(err);
+        })
+    }										
+										
+										
+										    //预览页面点击
+    $scope.lookUpDetail = function(data){
+        window.open('../../goodsDetailPreview/view/goodsDetailPreview.html?id=' + data.id + '&url=' + data.url);
+    }
+		
+		
+            if(list.suppliernum == "jd"){
+                window.open('../../shoppingJdDetail/view/shoppingDetail.html?id=' + list.wareid+"&supplierid="+list.supplierid +"&goodsType="+list.suppliernum);
+                return false;
+            }else if(list.suppliernum == "sn"){
+              window.open('../../shoppingSnDetail/view/shoppingDetail.html?id=' + list.wareid+"&supplierid="+list.supplierid +"&goodsType="+list.suppliernum);
+              return false;
+            }
+            window.open('../../shoppingDetail/view/shoppingDetail.html?id=' + list.goodsid + '&url=' + list.url);
+        }
+				
+				---------------------------------------------
+				 <!--苏宁地址 start-->
+                                <div class="" style="display: inline-block" ng-if="snSelectDistrict" ng-cloak>
+                                    <snaddress-district check-address="checkAddress" islast="islast" ng-if="!hideCart"></snaddress-district>
+                                    <div class="showdetail"  ng-bind="showAddress" ng-if="hideCart" title="{{showAddress}}"></div>
+                                </div>
+                                <!--苏宁地址 end-->
+																
+																    <link rel="stylesheet" href="../../lib/snSelectDistrict/snSelectDistrict.css">
+																		
+																		    <script src="../../lib/snSelectDistrict/snSelectDistrict.js"></script>
+																				
+																				
+																				cache: 1544411532887
+id: c761b04c-4423-4ed4-8c10-972f488c6a41
+pagenum: 1
+pagesize: 20
+cache: 1544411576506
+id: 15992
+pagenum: 1
+pagesize: 20
+																				
+																				
+																				   
+																				
+
+                    <div class="col-xs-8 col-xs-offset-2" style="width: 76.666667%;height: 30px;line-height: 18px;margin-left: 10.666667%;padding-right: 0px;font-size: 14px;">
+                        <div class="col-xs-4" style="width: 26.333333%;font-size: 14px;">任务描述：</div>
+                        <div class="col-xs-8" style="width: 76.666667%;margin-left: -18px;">
+                            <!--<input type="text" class="inpt" style="width: 80%" ng-model="roleOne.value">-->
+                            <textarea class="form-control" rows="2" style="width: 100%;resize:none;" ng-model="search.newdescription"></textarea>
+                            <i style="display: inline-block;margin-left: -1px;width: 416px;text-align: justify;font-style: normal;color: red;"><i style="color: red;font-style: normal;">*</i>需要执行的任务的描述,用来详细说明该任务，可以不填</i>
+                        </div>
+                    </div>
+ 
+	
+	
+	.form-control:focus{
+border-color:#ccc;
+box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075)
+}
+
+
+<div class="container">
+    <input type="text" placeholder="请输入">
+</div>
+																	 .container {
+    margin: auto;
+    text-align: center;
+    margin-top: 100px;
+}
+input {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+input:focus {
+    outline: none;
+    border-color: #cfdc00;
+    box-shadow: 0 0 5px rgba(207, 220, 0, 0.4);
+    border-radius: 5px;
+}
+
+    //上传图片开始
+
+    //上传附件
+    $scope.attachments = [];//保存附件的内容
+    $scope.chkchangefile = function(file){
+        if($scope.attachments.length >= 5 ){
+            alert("最多上传5张图");
+            return false;
+        }
+
+        file[0].name ?  putform2():alert('未选中');
+    }
+    $scope.urlid = "";
+    var putform2 = function (data) {
+        var idname = '#form2';
+        $(idname).ajaxSubmit(function (resp) {
+            var responseResult = JSON.parse(resp);
+            var size = $("#form2 input[type='file']")[0].files[0].size;
+            $scope.picNew2 = $("#form2 input[type='file']")[0].files[0].name.substring($("#form2 input[type='file']")[0].files[0].name.lastIndexOf('\\')+1);
+
+            $scope.$apply(function(){
+                $scope.attachments.push({
+                    // "name":$scope.picNew2,
+                    // "id":responseResult.content.id,
+                    "url":responseResult.content.url,
+                    // "size":size
+                })
+                $scope.picNew2 = "";
+                alert("上传成功！");
+            });
+            console.log($scope.attachments);
+
+
+        }).submit(function () {
+            return false;
+        });
+    };
+
+$scope.delImg = function(index){
+    $scope.attachments.splice(index,1);
+}
+    //上传图片结束
+		
+		
+		
+		    <el-row>
+      <el-col :span="8" v-for="(news, index) in newLists" :key="index"
+        <el-card :body-style="{ padding: '0px' }">
+          <img :src="news.thumbnail_pic_s" class="image">
+          <div style="padding: 14px;">
+            <span>{{news.title}}</span>
+            <div class="bottom clearfix">
+              <time class="time">{{news.date}}</time>
+              <el-button type="text" class="button">操作按钮</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+  </el-row>
+	
+	
+	 $.each($scope.buyli.goodsList,function(i,val){
+                if(val.inputdate){
+                    val.inputdate = val.inputdate.split(" ")[0];
+                }
+                if(val.failuredate){
+                    val.failuredate = val.failuredate.split(" ")[0];
+                }
+                val.name = $sce.trustAsHtml(val.name);
+                val.supplier = $sce.trustAsHtml(val.supplier);
+            })
+						
+						$.each($rootScope.orderList,function(i,val){
+        //         $.each(val.goodslist,function(j,item){
+        //             item.isChecked = false;
+        //         });
+        //     });
+				
+				collectlists
+				
+				
+				  $.each(resp.content.body,function(i,val){
+          $.each(val.details,function(j,item){
+            $.each(item.goods,function(k,value){
+              var goods = value;
+              $scope.carsGoods.push(goods)
+            })
+          })
+        })
+				
+				$.each(resp.content,function(i,val){
+                $.each(val.saleAttrList,function(j,item){
+                    if(item.skuIds.indexOf(parseInt($scope.sku)) > -1){
+                        item.choosed = true;
+                    }else{
+                        item.choosed = false;
+                    }
+                })
+            })
+						
+		.pic-left:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .175);
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .175);
+   }
+	 
+	 .shopOne:hover {
+    box-shadow: 0 2px 8px red;
+    -webkit-box-shadow: 0 2px 8px red;
+}
+	 
+	 shop.goodstate == '待发货'? true:(shop.goodstate == '已收货'? true:(shop.goodstate == '已妥投'? true:(shop.goodstate == '待收货'? true:false)))"
+	 
+	 
+	 // 查看商品详情
+    lookUpDetail (list) {
+      this.$router.push({'path': `/home/goods?id=${list.wareid}&suppliername=${list.suppliername}`})
+    },
+		
+----------------------------------------------------------------任务清单
+待开票清单 修改字段		
+月结单报表 修改字段
+---------------------------------------------------------------
+库存管理(盘点单、入库单、报失报损单、归还单、领用单)新增详情页
+homepage
+navigation
+--------------------------------------------------------------
+	    $(".chooseDate").datetimepicker({
+        format: 'yyyy-mm-dd',
+        todayBtn: true,
+        autoclose: true,
+        startDate:new Date(),
+        language: 'zh-CN',
+        minView: 2
+    });
+	
+	
+	
+	
+	.form-control:focus {
+    /* border-color: #66afe9; */
+    /* outline: 0; */
+    /* -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); */
+    /* box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); */
+}
+	.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+	
+	
+		 
+    $scope.shopTail = function (list) {
+
+        if(list.linkaddress){
+            window.open(list.linkaddress);
+        }
+        else if(list.suppliername){
+            window.open('../../buyList/view/buyList.html?keyword=&pageIndex=&categoryid=&brand=&model=&supplierid='+list.supplierid);
+        }
+        else if(list.goodsid){
+            if(list.suppliernum == "jd"){
+                window.open('../../shoppingJdDetail/view/shoppingDetail.html?id=' + list.wareid+"&supplierid="+list.supplierid +"&goodsType="+list.suppliernum);
+                return false;
+            }else if(list.suppliernum == "sn"){
+              window.open('../../shoppingSnDetail/view/shoppingDetail.html?id=' + list.wareid+"&supplierid="+list.supplierid +"&goodsType="+list.suppliernum);
+              return false;
+            }
+            window.open('../../shoppingDetail/view/shoppingDetail.html?id=' + list.goodsid + '&url=' + list.url);
+        }
+    }
+		
+								
+		//默认当前日期
+    var d = new Date();
+    $scope.storageDate= d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    $('.chooseDate').datetimepicker({
+		            todayBtn: true,
+                format: 'yyyy-mm-dd hh:ii',
+                autoclose: true,
+                minView: 0,
+                minuteStep: 1
+        language:'zh-CN',
+    })
+		
+		 factoryAddress = "无锡厂";
+		  $scope.billFactoryAddress = "联合汽车电子有限公司无锡厂";
+
+
+    $scope.triggertype = [{"name":"上海厂","value":"5561"},{"name":"无锡厂","value":"5562"},    {"name":"西安厂","value":"5563"},{"name":"重庆分公司","value":"5564"},{"name":"芜湖厂","value":"5565"},{"name":"柳州厂","value":"5566"},{"name":"太仓厂","value":"5567"}];
+
+
+		                  <div _ngcontent-c3="" class="col-sm-10">
+                      <button type="button" class="inpt col-xs-12 bootstrap-relative" data-toggle="dropdown"><em class="fontstylenone">{{saleDistrictss.saleDistrict}}</em>
+                          <span class="caret bootstrap-span-absolute"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" >
+                          <li ng-repeat="data in triggertype track by $index" ng-click="addReceiveDatas(data)">
+                              <a href="">{{data.name}}</a>
+                          </li>
+                      </ul>
+                  </div>
+		
+		
+		
+		
+		
+		<div class="div-bor">
+
+<i class="icon-user"></i>
+
+<input type="text" class="user" />
+
+</div>
+		<style>
+
+.div-bor{
+
+position: relative;width: 200px;
+
+}
+
+.icon-user{
+
+position: absolute;left: 0；z-index:5;
+
+background-image: url(user.png); /*引入图片图片*/
+
+background-repeat: no-repeat; /*设置图片不重复*/
+
+background-position: 0px 0px; /*图片显示的位置*/
+
+width: 20px; /*设置图片显示的宽*/
+
+height: 20px; /*图片显示的高*/
+
+}
+
+</style>
+<i class="icon-paper-clip icon-large"></i>
+ icon-calendar
+ 
+ 
+                 var link = '../../shopIssue/view/shopIssue.html?&ids=' + $scope.idArry;
+                window.location.href = link;
+								
+								
+-------------------------------------------------------------								
+../../authContr/view/authContr.html  模块管理
+../../authority/view/authority.html  角色管理
+../../employee/view/employee.html    用户管理
+ ../../organizational/view/organizational.html 组织管理
+ 
+ 
+/state/storageregister/querystoragedetail
+  $scope.purchaseImport = function () {
+
+       layer.alert("确认导出？", {
+           btn: ['确认', '取消'],
+           btn1: function () {
+              
+               $.ajax({
+                   url: '/ip/purchasesMoneyReport/TrackingReport',
+                   type: 'get',
+                   timeout: 1000,
+                   data: sendData,
+                   dataType: 'json',
+                   contentType: "application/json; charset=utf-8",
+                   success: function (data, status) {
+                       if (data.message == 'success') {
+                           window.location.href = data.content.url;
+                           alert('采购额报表导出成功');
+                       }
+                   },
+                   fail: function (err, status) {
+                       layer.alert(err, {
+                           btn: ['确定'],
+                           btn1: function () {
+                               window.layer.closeAll();
+                           }
+                       })
+                   }
+               })
+               // },1500)
+               window.layer.closeAll();
+           },
+           btn2: function () {
+               layer.closeAll();
+           }
+       })
+
+   }
+	 
+http://localhost:8080/salesplatform/public/salesplatform/ip/salesplatform/addClientDetail/view/supplierput.html
+
+/customer/checkCustomer?id=2&checkopinion=好&state=已通过
+
+
+    $scope.myKeyup = function (e) {
+        var keycode = window.event ? e.keyCode : e.which;
+        if (keycode == 13) {
+            $scope.searchLi();
+        }
+    };
+		
+		
+		$scope.deletOne = function (id) {
+        requdel.get({
+            id: id,
+            cache: new Date().getTime()
+        }, function (resp) {
+            GetAllEmployee();
+            alert("删除成功");
+        }, function (err) {
+            // console.log(err);
+        });
+    }
+		
+			 shop.goodstate == '待发货'? true:(shop.goodstate == '已收货'? true:(shop.goodstate == '已妥投'? true:(shop.goodstate == '待收货'? true:false)))"
+			 
+			 $scope.showTimeChoose = false
+			 
+	
+function newWin(url) {
+    var b = window.open();
+    setTimeout(function () {
+        b.location.href = url;
+    }, 100);
+}
+
+this.$nextTick
+
+----------------------
+订单状态 审批中改成待发货
+-------------------
+		  postShopInfoss: config.host + '/goodsCategory/getSu',
+		  orderspayInputs:config.host+'/jd/categoryExcleImport',
+		  putawayListExport:config.hostExport+'/materialclassify/listExport',
+		  getSnGoodsService:config.host+'/sn/product/getCategory',
+		   postSnCateSave: config.host + '/goodsCategory/marrySn',
+			 
+---------------------------
+
+显示默认日期
+    $(document).ready(function () {
+        var time = new Date();
+        var day = ("0" + time.getDate()).slice(-2);
+        var month = ("0" + (time.getMonth() + 1)).slice(-2);
+        var today = time.getFullYear() + "-" + (month) + "-" + (day);
+        $('#date_info').val(today);
+    })
+		
+		    $(".hov").hover(function () {
+        $(".xuanz").show();
+        $(this).children("i").removeClass("hovdown");
+        $(this).children("i").addClass("hovup");
+    }, function () {
+        $(".xuanz").hide();
+        $(this).children("i").addClass("hovdown");
+        $(this).children("i").removeClass("hovup");
+    });
+		
+--------------------------------------------
+    //退货功能
+    $scope.backGoods = {};
+    $scope.returngoods = function(list,shop){
+        $scope.backGoods.goodsCount = "";
+        $scope.backGoods.reason = "";
+        $scope.backGoods.textCount = "";
+        $scope.backGoods.goodsName = shop.name;
+        $scope.limitCountBack = shop.count;
+        $scope.refundsGoods = list;
+        $scope.refundsGoods.goods = [];
+        $scope.refundsGoods.goods.push(shop);
+        $("#myModalback").modal("show");
+    }
+		
+		    //换货功能
+    $scope.changeGoods = {};
+    $scope.changegoods = function(list,shop){
+        $scope.changeGoods.goodsCount = "";
+        $scope.changeGoods.reason = "";
+        $scope.changeGoods.textCount = "";
+        $scope.changeGoods.goodsName = shop.name;
+        $scope.limitCountChange = shop.count;
+        $scope.changeGoodsTotal = list;
+        $scope.changeGoodsTotal.goods = [];
+        $scope.changeGoodsTotal.goods.push(shop);
+        console.log($scope.changeGoods);
+        $("#myModalchange").modal("show");
+    }
+		
+		    $scope.Count = 500;
+    $scope.tolCount = function () {
+        console.log($scope.backGoods.textCount.length);
+        $scope.Count = 500 - $scope.backGoods.textCount.length;
+    }
+		
+		
+		
+		    $scope.confirmBack = function(){
+         $scope.picsImgsArrJoin = $scope.picsImgsArr.join(',');
+        if(!$scope.backGoods.goodsCount || $scope.backGoods.goodsCount == "0"){
+            alert("数量不能为空或者为0");
+            return false;
+        }
+        if(!(/^[0-9]+$/.test($scope.backGoods.goodsCount))){
+            alert("数量只能输入数字");
+            return false;
+        }
+        if(parseInt($scope.backGoods.goodsCount) > parseInt($scope.limitCountBack)){
+            alert("该商品的订购量为:"+parseInt($scope.limitCountBack)+",退货数量不得高于该商品的订购量!");
+            return false;
+        }
+        if (!$scope.backGoods.reason) {
+            alert("请选择申请类型!");
+            return false;
+        }
+        if (!$scope.backGoods.textCount) {
+            alert("请输入问题描述!");
+            return false;
+        }
+        $scope.refundsGoods.type = "退货";
+        $scope.refundsGoods.userid = $scope.userId;
+        $scope.refundsGoods.payment = "";
+        $scope.refundsGoods.finance = "";
+        $scope.refundsGoods.cause = "";
+        $scope.refundsGoods.goods[0].refundcount = $scope.backGoods.goodsCount;
+        $scope.refundsGoods.goods[0].reason = $scope.backGoods.reason;
+        $scope.refundsGoods.goods[0].problemdescribe = $scope.backGoods.textCount;
+        $scope.refundsGoods.goods[0].jdnum = $scope.refundsGoods.goods[0].jdordernum;
+        $scope.refundsGoods.goods[0].applyer = $scope.refundsGoods.goods[0].applyuser;
+        $scope.refundsGoods.goods[0].applyer = $scope.refundsGoods.goods[0].applyuser;
+        $scope.refundsGoods.goods[0].FTNPThreeCategoryName = $scope.refundsGoods.goods[0].ftnpthreecategoryname;
+        $scope.refundsGoods.goods[0].FTNPThreeCategoryName = $scope.refundsGoods.goods[0].ftnpthreecategorycode;
+        $scope.refundsGoods.goods[0].pickcode = "";
+        $scope.refundsGoods.goods[0].pickname = "";
+        $scope.refundsGoods.goods[0].pics = $scope.picsImgsArrJoin;
+        console.log($scope.refundsGoods);
+        refundsSave.save($scope.refundsGoods,function(resp){
+            console.log(resp);
+            $("#myModalback").modal("hide");
+            if(!resp.code){
+                layer.alert("退货申请成功!",{
+                    btn:["确定"],
+                    btn1:function(){
+                        window.location.reload();
+                    }
+                });
+
+            }else{
+                alert(resp.message);
+            }
+        },function(err){
+            console.log(err);
+        })
+
+    }
+
+
+        $scope.changeCount = 500;
+        $scope.tolCountChange = function () {
+            console.log($scope.changeGoods.textCountChange.length);
+            $scope.changeCount = 500 - $scope.changeGoods.textCountChange.length;
+        }
+				
+				
+				
+				
+				    $scope.confirmChange = function(){
+         $scope.picsImgsArrJoin = $scope.picsImgsArr.join(',');
+        if(!$scope.changeGoods.goodsCount){
+            alert("数量不能为空");
+            return false;
+        }
+        if(!/^[0-9]+$/.test($scope.changeGoods.goodsCount)){
+            alert("数量只能输入数字");
+            return false;
+        }
+        if(parseInt($scope.changeGoods.goodsCount) > parseInt($scope.limitCountChange)){
+            alert("该商品的订购量为:"+parseInt($scope.limitCountChange)+",换货数量不得高于该商品的订购量!");
+            return false;
+        }
+        if (!$scope.changeGoods.reason) {
+            alert("请选择申请类型!");
+            return false;
+        }
+        if (!$scope.changeGoods.textCountChange) {
+            alert("请输入问题描述!");
+            return false;
+        }
+        $scope.changeGoodsTotal.type = "换货";
+        $scope.changeGoodsTotal.userid = $scope.userId;
+        $scope.changeGoodsTotal.payment = "";
+        $scope.changeGoodsTotal.finance = "";
+        $scope.changeGoodsTotal.cause = "";
+        $scope.changeGoodsTotal.goods[0].changecount = $scope.changeGoods.goodsCount;
+        $scope.changeGoodsTotal.goods[0].reason = $scope.changeGoods.reason;
+        $scope.changeGoodsTotal.goods[0].problemdescribe = $scope.changeGoods.textCountChange;
+        $scope.changeGoodsTotal.goods[0].jdnum = $scope.changeGoodsTotal.goods[0].jdordernum;
+        $scope.changeGoodsTotal.goods[0].applyer = $scope.changeGoodsTotal.goods[0].applyuser;
+        $scope.changeGoodsTotal.goods[0].applyer = $scope.changeGoodsTotal.goods[0].applyuser;
+        $scope.changeGoodsTotal.goods[0].FTNPThreeCategoryName = $scope.changeGoodsTotal.goods[0].ftnpthreecategoryname;
+        $scope.changeGoodsTotal.goods[0].FTNPThreeCategoryName = $scope.changeGoodsTotal.goods[0].ftnpthreecategorycode;
+        $scope.changeGoodsTotal.goods[0].pickcode = "";
+        $scope.changeGoodsTotal.goods[0].pickname = "";
+        $scope.changeGoodsTotal.goods[0].pics = $scope.picsImgsArrJoin;
+        console.log($scope.changeGoodsTotal);
+        changeGoodsService.save($scope.changeGoodsTotal,function(resp){
+            console.log(resp);
+            $("#myModalchange").modal("hide");
+            if(!resp.code){
+                layer.alert("换货成功!",{
+                    btn:["确定"],
+                    btn1:function(){
+                        window.location.reload();
+                    }
+                });
+
+            }else{
+                alert(resp.message);
+            }
+        },function(err){
+            console.log(err);
+        })
+
+    }
+-----------------------------------------------------------------------
+enquiryPage询价模块 (http://localhost:8080/JCYCP/public/ip/ip/enquiryPage/view/enquiry.html#/entryOrders)
+	
+	待提交列表 toSubmitLists
+	新增待提交 newAddtoSubmit
+	待提交询价详情subEnquiryDetails(http://localhost:8080/JCYCP/public/ip/ip/subEnquiryDetails/view/subEnquiryDet.html)
+（查看报价功能跳转页面）询价供应商列表enquirySupLists	 (http://localhost:8080/JCYCP/public/ip/ip/enquirySupLists/view/enquirySup.html)
+
+（查看对比报价功能跳转页面）contrastTheprice	 (http://localhost:8080/JCYCP/public/ip/ip/contrastTheprice/view/contrast.html)
+
+
+
+ 点击询价标题-》跳转询价详情页（基本信息）
+ 
+询价单列表-》查看详情-》跳转到 报价信息详情 
+
+报价中询价列表 -》（操作）查看报价按钮(收到三家以上报价才出现查看报价按钮)-》跳转到 询价单页(有对比价格按钮)-》对比价格按钮 跳转到-》供应商报价页面
+
+待提交列表-》(操作)编辑按钮、生成标阶段数据按钮，并提示‘提交成功’或'失败'、删除按钮提示是否删除
+新增询价按钮-》跳转新增询价单页面
+
+
+
+{
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075); 
+     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s; 
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+
+
+
+        //     $.each($rootScope.orderList,function(i,val){
+        //         $.each(val.goodslist,function(j,item){
+        //             item.isChecked = false;
+        //         });
+        //     });
+
+
+        var gossArr = [];
+        var numArr = [];
+        console.log()
+        $.each($rootScope.orderList,function(i,val){
+            $.each(val.goodslist,function(j,item){
+                console.log(item)
+                if(item.isChecked){
+                    gossArr.push(item.goodsid);
+                    numArr.push(item.ordernum);
+                }
+            })
+        })
+		
+		
+		    //判断是否全选
+    $scope.allSelect = function(){
+        if($scope.allChecked){
+            $.each($scope.goodslist.goodsList,function(i,val){
+                val.isChecked = true;
+            })
+        }else{
+            $.each($scope.goodslist.goodsList,function(i,val){
+                val.isChecked = false;
+            })
+        }
+    }
+
+
+
+
+
+
+                var body = [];
+                $.each($scope.favour,function(i,val){
+                    body.push({
+                        preferentialcondition:parseFloat(val.option),
+                        preferentialway:parseFloat(val.type)
+                    })
+                });
+                var bodyId = [];
+                $.each($scope.actGoods,function(i,val){
+                    bodyId.push(parseInt(val.id));
+                });
+                console.log(bodyId);
+
+
+            var body = {};
+                $scope.good.directiveground = "N";
+                $.each($scope.good,function(i,val){
+                    body[i] = val;
+                })
+
+
+
+icon-upload-alt
+
+
+
+
+
+
+ .table-condensed{
+	 width:204px;
+	 
+ }
+
+
+
+ <td class="commonTd">{{list.operatingdate| date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    postHome.get({
+        cache: new Date().getTime()
+    },function(resp){
+        $scope.treeCates=resp.content;
+
+        $.each($scope.treeCates,function(i,val){
+            val.isChecked = false;
+            $.each(val.children,function(j,item){
+                item.isChecked = false;
+                $.each(item.children,function(k,kong){
+                    kong.isChecked = false;
+
+                })
+            })
+        })
+        console.log( $scope.treeCates);
+    })
+		
+	---------------------------------------------------------------------------------------	
+		$scope.tail = function (list) {
+        var url ="../.."+ list.viewformurl+"?instanceid=" + list.instanceid;
+        newWin(url);
+    };
+
+repeat-finish
+
+ordersController.directive('repeatFinish',function($timeout){
+    return {
+        restrict: 'A',
+        link: function(scope,elem,attr){
+            //当前循环至最后一个
+            if (scope.$last === true) {
+                $timeout(function () {
+                    function timeDateOrder() {
+                        $('.dateOrder').datetimepicker('remove');
+                        $('.dateOrder').datetimepicker({
+                            format: 'yyyy-mm-dd',
+                            todayBtn: true,
+                            autoclose: true,
+                            language: 'zh-CN',
+                            minView: 2
+                        });
+                    }
+                    timeDateOrder();
+                },100);
+            }
+        }
+    }
+});
+
+
+
+    //高级搜索
+    $scope.confirmData = function(){
+        // if($scope.startTime && $scope.endTime && ($scope.startTime > $scope.endTime)){
+        //     alert("开始时间不能大于结束时间!");
+        //     return ;
+        // }
+        if($scope.search.startTime && $scope.search.endTime && ($scope.search.startTime > $scope.search.endTime)){
+            alert("开始时间不能大于结束时间!")
+            return ;
+        }else{
+            console.log($scope.search);
+            $scope._subject ="";
+            GetAllEmployee();
+            $("#myModal").modal("hide");
+        }
+        
+    }
+    // 高级搜索重置
+    $scope.resetBtn = function(){
+        $scope.search={};
+        
+    }
+
+
+
+
+
+
+    $scope.search = {};
+    $scope._subject = '';
+    var GetAllEmployee = function () {
+        var postData = {
+            userid: $scope.userId,
+            subject: $scope._subject,
+            state: $scope.sta,
+            ordernum:$scope.search.ordernum ? $scope.search.ordernum:'',
+            supplier:$scope.search.supplier ? $scope.search.supplier:'',
+            goodsname:$scope.search.goodsName ? $scope.search.goodsName:'',
+            startdate:$scope.search.startTime ? $scope.search.startTime:'',
+            enddate:$scope.search.endTime ? $scope.search.endTime:'',
+            ordername:$scope.search.purchaseOrder,
+            pagenum: $scope.paginationConf.currentPage,
+            count: $scope.paginationConf.itemsPerPage,
+            cache:new Date().getTime()
+        }
+        changesList.get(postData, function (resp) {
+            $scope.paginationConf.totalItems = resp.content.count;
+            $scope.superviseList = resp.content.body;
+        }, function (err) {
+            // console.log(err);
+        })
+    }
+
+ $scope.resetBtn = function(){
+        $scope.search={};
+    }
+
+        lo2();
+        orderSubmit.save($scope.data, function (resp) {
+            $('.loading2').fadeOut();
+
+
+
+
+var arr = [NaN,1,5,6,7];
+for(var i=0;i<arr.length;i++){
+    if(isNaN(arr[i])){
+        arr[i]=0;
+    }
+}
+-----------------------------------------------------------------------------
+【BUG修改】
+1、九彩云采购平台---流程管理---流程审批设置 选择审批人弹出层添加按钮有问题，点击确定之后，提示用户，是否添加**
+2、九彩云采购平台---流程管理---待办任务、流程跟踪增加刷新按钮
+3、九彩云采购平台---采购下单---备注字数限制
+4、九彩云采购平台 ----订单管理---下单失败记录 字体 与 系统字体不符
+5、九彩云采购平台---流程管理---流程跟踪 高级搜索没有反应
+6、九彩云采购平台---流程管理---待办任务 高级搜索没有反应
+7、九彩云采购平台---app首页配置 ---添加的弹出层，应该清空选中的时间、编号等信息
+8、九彩云采购平台----系统管理----app配置----当添加或修改存在冲突的时候，应该把后端返回的信息弹出
+9、九彩云采购平台----系统管理----app配置----历史记录去掉‘备注’字段、加上‘修改类型’字段
+10、九彩云采购平台----系统管理----app配置----修改的时候、广告位编号不能修改
+11、九彩云采购平台----系统管理----app配置----增加‘提交人’模糊搜索字段
+12、九彩云采购平台----系统管理----app配置----生效时间、失效时间非必填 如果生效时间或者失效时间填了其中一个，则两个都必填
+13、九彩云平台---系统管理---app配置 ，生效时间 模糊搜索失效
+14、九彩云采购平台 --订单管理---用户点击收货之后，刷新页面我的订单没有数据了，然后再次点击 ‘我的订单’ 又有数据了
+15、九彩云平台---询价管理---新增 询价日期（不可修改）、询价人、联系电话 默认带出
+16、九彩云平台---系统管理---app配置 ，当用户没有选择生效、失效时间，则显示表格为‘永久’
+17、九彩云营销平台---客户管理---邮箱格式为空的时候不进行非法判断
+18、九彩云营销平台---商品管理---商品库新增 供应商 hover 看全部 发货地点 使用地址组件  一级二级三级价格必填
+19、九彩云平台---首页配置---选择商品tab页，输入关键字后，无法触发查询。
+20、九彩云平台---首页配置---选择供应商tab页，供应商应为必填。
+21、九彩云平台---首页配置---选择商品tab页中，商品只显示了图片和名称，无法很好的分辨。建议加上价格、供应商、有效期等信息。与商品清单显示的商品一致。
+22、九彩云平台---企业库：点击查看详情进入页面没信息。应跳转至九彩云商品详情页。
+23、九彩云平台---商品清单页---加入购物车：点击后数量应默认为起订量，不可小于起订量。见图
+24、九彩云平台---企业库---新增：供应商选择时搜索框不支持enter键。尽量支持enter
+25、九彩云平台---首页：右侧快捷栏的收藏商品，加入购物车需弹出数量。默认起订量。
+26、九彩云平台---商品管理→京东商品库→商品详情→加入购物车，出现“客户端请求参数有误!“。应隐藏加入购物车按钮。
+27、九彩云平台---订单管理---下单接口记录 字体 与 系统字体不符 以及模糊搜索框的宽度需要调整 操作这一栏需要放到最后面
+28、九彩云平台---业务报表---商品库存流水 导出不能用 以及页面元素宽度可以缩一缩
+29、九彩云采购平台-订单管理-电商退回订单：列表操作编辑点击后跳转页面不对，应该是跳转至订单编辑页。
+30、监控平台-搜索历史：搜索结果数没显示。
+31、监控平台-商品趋势。1、查询结果数比较少时，页面出现了白色区域。（选择买过，或者时间段点击搜索）2、关键字搜索提示文字错误。见图
+32、九彩云采购平台---商品管理----商品库 添加 商品时 ，根据需求文档 单价、销售区域、原因属于必填字段 ，
+33、九彩云采购平台----商品库---电商库 点击品牌 弹出品牌列表，加个模糊搜索功能
+34、九彩云采购平台---商品管理----添加三级分类，添加成功后，该三级分类下，右边列表数据没有刷新
+35、九彩云平台---下采购单--- 填写的电子普通发票信息 在提交订单后填写的发票信息都传给后端了，但是当查看订单详情时，却没有电子普通发票的数据信息。接口返回的也是空
+36、九彩云采购平台----系统管理----用户管理 操作要有中文提示
+37、九彩云平台---业务报表---商品库存流水 导出不能用 以及页面元素宽度可以缩一缩
+38、九彩云采购平台----商品库---电商库----将商品添加至九彩云失败，页面控制台报错
+39、九彩云采购平台---商品管理----商品库 添加 商品时 ，对物资图片进行非空判断 ，不要显示一张坏掉的图片
+40、九彩云采购平台----询价管理----新增物料 备注无法填写
+41、九彩云采购平台----询报价 邮箱验证、询价方式如果为‘定向邀请’需弹出供应商弹出层，用户选择供应商，以表格的形式显示在下方
+42、九彩云供应商平台-----采购底价 卡片高度固定 并且点击查看详情应该显示小手
+43、九彩云供应商平台-----采购询价----我要报价页面 -交货期应不能选择当前日期之前的
+44、九彩云供应商平台-----采购底价 点击‘保存’ 弹出报价失败提示
+45、九彩云供应商平台-----采购询价----我要报价页面 -单个物料hover上去才有‘拒绝’按钮 并且需要判断用户是否选择部分报价
+46、九彩云监控平台----首页----总采购额、订单节点信息 hover的数据 这是整形 不要加上小数点，
+47、九彩云监控平台----首页----	历史订单完成效率LAST10横向柱状图、	历史订单完成效率TOP10横向柱状图 按天来，不要显示小数，也不婪转换百分比
+48、监控平台-首页。1、今日订单数量，当月订单数量不应显示小数点。2、历史订单效率，显示标签应为9.625天。而不是百分比
+49、九彩云商品详情：商品描述没显示。详情链接见描述。
+50、监控平台-商品趋势：选择两个商品后点击价格对比。显示的图中，红色线表示的商品价格不对
+51、监控平台-商品趋势：价格趋势图显示错误。见图
+52、九彩云供应商平台-----采购询价----我要报价页面 拒绝按钮不能用、不能上传附件 说明信息的上传附件不能用
+53、联电采购平台---订单管理-我的订单：点击图片进入详情时，京东商品进入页面不对
+54、联电采购平台---购物车：点击图片进入详情时，京东商品进入页面不对
+55、九彩云采购平台---订单管理-我的订单：点击图片进入详情时，京东商品进入页面不对
+56、九彩云采购平台---购物车：点击图片进入详情时，京东商品进入页面不对
+57、九彩云采购平台---新增询价单---添加询价人选择弹框功能
+58、九彩云采购平台---添加询价商品界面，新增字段的物料编号、名称、规则型号、单位、数量、备注字段为空也能保存成功
+59、九彩云采购平台---添加询价商品界面，输入完整信息后，点击提交按钮后，再重新点击标题查看详情页面，出现查看商品详情失败的提示
+60、九彩云采购平台---库存管理-入库登记单新增入库保存失败
+61、九彩云采购平台---点击左侧任意菜单栏时不能跳转到指定菜单栏模块。
+62、九彩云采购平台---新增入库登记单-未对字段类型做控制
+63、九彩云采购平台---库存管理-不能搜索
+64、九彩云采购平台---库存管理-领用登记单新增领用单时没有做必填验证
+65、九彩云采购平台---库存管理-库存管理-领用登记单获取数据数量不对
+66、九彩云采购平台---库存管理-领用登记单 选择需求商品时不能搜索和翻页
+67、九彩云采购平台---库存管理-领用登记单不能根据状态筛选数据
+68、询价列表：点击标题进入详情后。询价商品信息多了三列。请删除。见图。
+69、询价管理-询价列表操作编辑。进入后，公开类型询价变成了定向邀请。
+70、采购平台-询价管理-询价详情：定向邀请时，没显示被邀请供应商列表。
+71、供应商平台-商机管理：报价。交货日期提示错误。见图
+72、询价管理-所有询价列表：列表操作提交后，数据状态没刷新。
+73、九彩云采购平台---新增询价单--备注、列表备注字段没保存/新增两个商品询价，第二个商品的询价附件在详情页没显示/定向邀请时，多次选择供应商，供应商信息会重复显示
+74、采购平台-询价管理-询价中列表/所有询价列表。3个及以上供应商报价后，没显示操作“查看报价”
+75、供应商平台-商机管理：显示公告没放满。见图
+76、采购平台-询价管理：已完成列表。点击询价单详情页报错。单号：XJDD201903070003
+77、采购平台-询价管理：新增。1、默认将当前登录人邮箱带出。2、选择人员替换询价人之后，没有带出电话时不应提示错误。
+78、供应商平台-商机管理：报价。报价页排版问题，见图片
+79、询价中列表：查看报价页对比价格，点击拒绝报价没反应。
+80、采购平台-询价管理：报价之后，询价单打开报错，见图。询价单号：XJDD201903060006
+81、供应商平台-商机管理：报价页。金额计算错误。见图
+82、供应商平台-商机管理：报价。1、报价页排版及文字错误问题见图一。2、要求区域联系电话应能修改。3、报价区，单价千分位输入多位小数时显示有问题。4、金额合计没有千分位显示。5、报价按钮不能点。
+83、查看报价页，点击进入对比价格页。1、选择商品后点击“对比价格”报错。见图。2、定价列无法选择不同供应商。全选功能有问题。
+84、询价列表：查看报价页，点击进入对比价格页。1、选择商品后点击“对比价格”报错。见图。2、定价列无法选择不同供应商。3、总价行没显示信息。4、全选功能有问题。
+85、采购平台---询价管理---新增查看供应商报价详情信息
+86、供应商平台-商机管理-采购询价：询价信息显示了两个一样的。见图
+87、九彩云采购凭条 ---商品详情评价功能 ---商品评价点击没反应。
+88、采购平台-首页：点击三级分类搜索后，商品结果页没显示对应选中的三级分类。导致无法查看其它分类信息。见图
+---------------------------------------------------------------------
+供应商新增商品，提示商品已存在（实际商品库中只有一个商品），再次改了名称和编码后可提交
+问题类型：bug
+解决方案：新增商品校验重复性时，将已删除商品剔除再验证。
+
+13、订单管理：
+物流查看：运单号、到货时间换行显示（内容与标题直接冒号间隔），或者分成两列
+
+客户收货后，建议状态更新到供应商平台，目前供应商平台收货后空白（收货、退货、换货）
+商品退货一部分后又换货，换货数量超过剩余数之后，没有在填写时给出提示，提交后给出提示框就直接关闭页面了（建议页面给出剩余的可操作的数量）
+
+
+供应商平台文件导出订单导出报错，导出文件乱码
+
+            pagenum:$scope.paginationConf.currentPage,
+            pagesize:$scope.paginationConf.itemsPerPage,
+			
+            pagenum:$scope.paginationConfOrder.currentPage,
+            pagesize:$scope.paginationConfOrder.itemsPerPage,
+
+            pagenum:$scope.paginationConfOrderMoney.currentPage,
+            pagesize:$scope.paginationConfOrderMoney.itemsPerPage,
+			
+    $scope.shows = function (index) {
+        $(".deai").hide();
+        $(".deai").eq(index).show();
+        $(".page").removeClass("page2");
+        $(".page").eq(index).addClass("page2")
+    }
+    $scope.hides = function () {
+        $(".deai").hide();
+        $(".page").removeClass("page2");
+    }
+
+
+sockets: {
+    connect () {
+      this.$socket.emit('login', {
+        'userid': 'hugt',
+        'text': 'hello'
+      })
+      this.referInit = false
+    },
+    responseAssets (data) {
+      console.log(data)
+      for (let item in data) {
+        data[item] = data[item].toFixed(2) + ''
+        if (this.referInit) {
+          this.assetsitdataStart[item] = 0
+        } else {
+          this.assetsitdataStart[item] = data[item]
+        }
+        this.$countNumber(item, this, this.assetsitdata, data)
+      }
+    }
+  },
+
+let seriesData = []
+      for (let i = 0; i < resp.length; i++) {
+        data.value.push(resp[i].num.toFixed(2))
+        data.legend.push(resp[i].state)
+        seriesData.push({
+          value: resp[i].num.toFixed(2),
+          name: resp[i].state
+        })
+
+
+      let xdata = []
+      let ydata = []
+      for (let i = 0; i < data.length; i++) {
+        xdata.push(data[i].supplier.substring(0, 4))
+        ydata.push(data[i].efficiency ? (data[i].efficiency * 100) : 0.00)
+      }
+
+<div>
+aaaaa<span style="display:none;color:#19f">bbb</span>
+</div>
+<input style="display:none;"/>
+<Script>
+$('div').hover(function(){
+	$('span',this).show(),
+	$('input').show()},
+	function(){
+		$('span',this).hide();
+		$('input').hide()
+		})
+</Script>
+$(document).ready(function(){
+        $('#a').hover(function() {
+            $("#b").css('display', 'block');
+        }, function() {
+           $("#b").css('display', 'none');
+        });
+            $("#b").hover(function() {
+                $(this).css('display', 'block');;
+            }, function() {
+                $(this).css('display', 'none');
+            });
+ })
+
+
+    // 订单详情
+    getbyprocessnum: config.host + '/order/getbyprocessnum',
+
+
+
+ if(/\D/.test(data.count)){alert('只能输入整数');data.count = data.minimumquantity;}
+
+
+$("p").css("background-color","yellow");
+$("p").css({"background-color":"yellow","font-size":"200%"});
+
+$(".btn1").click(function(){
+  $("p").css("color","red");
+});
+
+$("button").click(function(){
+    $("p").css("color",function(){return "red";});
+    });
+	
+	$("p").css({
+  "color":"white",
+  "background-color":"#98bf21",
+  "font-family":"Arial",
+  "font-size":"20px",
+  "padding":"5px"
+  });
+  
+      //邮箱验证
+    $scope.emailChange=function(){
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+        var flag = reg.test($scope.basic.email); //true
+        if(!flag){
+          layer.alert("邮箱格式有误!")
+            $scope.basic.email=""
+        }
+    }
+	
+	
+	    $scope.choseCart = function (data,index) {
+        if($(".addCart").eq(index).attr("disabled")){
+            return  false;
+        }
+        if(data.minimumquantity){
+            $scope.minimumquantity = data.minimumquantity;
+            $scope.choseCount = parseInt(data.minimumquantity);
+        }else{
+            $scope.minimumquantity = "";
+            $scope.choseCount = 1;
+        }
+        $scope.price = data.price;
+        $scope.goodid = data.id;
+        console.log($scope.minimumquantity)
+        $("#myModal").modal("toggle");
+    }
+
+    $scope.changeCount = function(){
+        if(parseFloat($scope.choseCount) < parseFloat($scope.minimumquantity)){
+            alert("该商品起订量为"+$scope.minimumquantity+"，订购数量不能少于起订量！");
+            $scope.choseCount = parseFloat($scope.minimumquantity);
+            return ;
+        }
+    }
+	
+	console.log(JSON.stringify($scope.selectedId))
+	
+	 询价单
+	【价格对比：不同商品不能进行价格对比】
+	【价格对比：多个供应商超出页面时，显示滚动条】 
+	
+	ng-repeat="suppliers in goodslistSupplierlist track by $index"
+	
+	              angular.forEach($scope.goodslistSupplierlist,function(value, index,datas){
+                $scope.totalspricesss =$scope.totalsprice + datas[index].goodstotalhsprice;
+
+              })
+               console.log($scope.totalspricesss)
+			   
+			   
+			   
+			       //邮箱验证
+    $scope.emailChange=function(){
+
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+        var flag = reg.test($scope.basic.email); //true
+        if(!flag){
+            alert("邮箱格式有误!")
+            $scope.basic.email=""
+        }
+    }
+	
+	    //获取商品列表
+    if(GetQueryString("id")){
+        marketManagementService.get({
+            pagenum:1,
+            pagesize:1,
+            activityname:"",
+            state:"",
+            id:GetQueryString("id")
+        },function(resp){
+            console.log(resp);
+            if(!resp.code){
+                $scope.good.activityName = resp.content.body[0].activityname;
+                $scope.good.startTime = resp.content.body[0].effecttime.split(" ")[0];
+                $scope.good.endTime = resp.content.body[0].effecttime.split(" ")[2];
+                $scope.good.effectime = resp.content.body[0].longtermeffective == "Y" ? "长期有效":"时间段";
+                $scope.good.activityGoods = resp.content.body[0].wholecategory == "Y" ? "全品类":"指定商品";
+                var tempArr = [];
+                $.each(resp.content.body[0].details,function(i,val){
+                    tempArr.push({
+                        option:val.preferentialcondition,
+                        type:val.preferentialway
+                    })
+                })
+                $scope.favour = tempArr;
+
+                $scope.actGoods = resp.content.body[0].goods;
+                $scope.showTimeChoose = resp.content.body[0].longtermeffective == "Y" ? false:true;
+                $scope.showGoodsChoose = resp.content.body[0].wholecategory == "Y" ? false:true;
+
+            } else{
+                alert(resp.message);
+            }
+        },function(err){
+            console.log(err);
+        })
+    }
+	
+	
+	    $(".listDic").click(function () {
+        $(".child").hide();
+        $(this).addClass("acv");
+        $(this).siblings(".listDic").removeClass("acv");
+        var index = $(".listDic").index($(this));
+        console.log(index);
+        $(".child").eq(index).show();
+    });
+	
+	
+	
+	payment_code
+	jd_payment_number
+	purchase_order_number
+	jd_order_number
+	sap_order_number
+	receipt_number
+	company_number
+	company_number_info
+	factory_number
+	factoryname
+	reconciliation_officer
+	invoicestitle
+	purchasing_group
+	investmentnum
+	demand_person
+	fotondown_order_time
+	fotonorder_completion_time
+	fotonorder_state
+	total_order_price
+	refund_amount
+	invoice_amount
+	jd_order_time
+	jd_payment_time
+	jd_order_completion_time
+	jd_order_totalprice
+	jd_refund_amount
+	repayment_amount
+	service_charge
+	jd_order_status
+	entry_status
+	entry_time
+	entry_number
+	repayment_status
+	repayment_date
+	contract_number
+	companyid
+	companyname
+	invoice_status
+	invoicecode
+	after_sales_status
+	reconciliation_status
+	deliveryid
+	
+	
+商品新增
+库存库新增
+询价管理新增和编辑（搜索供应商需要点击两下）
+
+完成   没操作
+进行中 修改  项目配置 计划发布 暂停 完成
+暂停   启用
+
+
+开始时间和结束时间 删除  （除了新增和详情）
+新增时title 是新增项目
+修改时title 是项目名称
+
+
+/ip/jiucaiyunexport/businessGrounding/listExport//上架数量导出
+/ip/jiucaiyunexport/businessOrderMoney/listExport//订单金额导出
+/ip/jiucaiyunexport/businessOrderNum/listExport//订单数量导出
+/ip/jiucaiyunexport/monthlyStatement/listExport//月结单报表导出
+
+  $scope.output2 = function () {
+
+    GetAllEmployee();
+
+    var canshu = {
+      "attr": {
+        "userid": $scope.userId
+      },
+      "filters": [
+        {
+          "key": "company_number",
+          "opt": "LIKE",
+          "type": "S",
+          "value": $scope.company_number ? $scope.company_number : ""
+        },
+        {
+          "key": "company_number_info",
+          "opt": "LIKE",
+          "type": "S",
+          "value": $scope.company_number_info ? $scope.company_number_info : ""
+        },
+        {
+          "key": "factory_number",
+          "opt": "LIKE",
+          "type": "S",
+          "value": $scope.factory_number ? $scope.factory_number : ""
+        }
+      ],
+      "logic": "and"
+    };
+    DownLoadFile({
+      url: murl.orignite.monthlySummaryListExport,
+      data: JSON.stringify(canshu)
+    });
+
+    function DownLoadFile(options) {
+      var config = {method: 'get'};
+      var $iframe = $('<iframe id="down-file-iframe" />');
+      var $form = $('<form target="down-file-iframe" method="' + config.method + '" />');
+      $(document.body).append($iframe);
+      $iframe.append($form);
+      $form.attr('action', options.url);
+      $form.append("<input type='hidden' name='exportData' value='" + options.data + "' />");
+      $form[0].submit();
+      $iframe.remove();
+    }
+  }
+         FTNPFirstCategoryCode: $scope.search.brandType == "all" ? "" : $scope.search.brandType,
+        shelvesdatestart: $scope.search.startTime ? $scope.search.startTime : "",
+        shelvesdateend: $scope.search.endTime ? $scope.search.endTime : "",
+        supplierid: $scope.search.supplierid ? $scope.search.supplierid : "",
+        pagenum: $scope.paginationConf.currentPage,
+        pagesize: $scope.paginationConf.itemsPerPage,
+  
+  
+  
+  
+         categoryid: $scope.search.brandType == "all" ? "" : $scope.search.brandType,
+        shelvesdatestart: $scope.search.startTime ? $scope.search.startTime : "",
+        shelvesdateend: $scope.search.endTime ? $scope.search.endTime : "",
+        dept: $scope.search.department == "全部" ? "" : $scope.search.department,
+        factory: $scope.search.factory == "all" ? "" : $scope.search.factory,
+        carstate: $scope.search.cartType == "all" ? "" : $scope.search.cartType,
+        supplierid: $scope.search.supplierid ? $scope.search.supplierid : "",
+=======================================================================================
+
+		
+		//上传附件
+$scope.attachments = []; //保存退货附件的内容
+$scope.attachmentsChange = [];//保存换货附件内容
+$scope.chkchangefile = function (file, num) {
+        if(num === 1){
+          var _name, _fileName, personsFile;
+          personsFile = document.getElementById("personsFile");
+          _name = personsFile.value;
+          _fileName = _name.substring(_name.lastIndexOf(".") + 1).toLowerCase();
+          if (_fileName !== "png" && _fileName !== "jpg" && _fileName !== "gif" && _fileName !== "jpeg" && _fileName !== "bmp") {
+            alert("上传图片格式不正确，请重新上传");
+            return false;
+          }
+          if ($scope.attachments.length >= 3) {
+            alert("最多上传3张图");
+            return false;
+          }
+          file[0].name ? putform2() : alert('未选中');
+        }else if (num === 2) {
+          var _name4, _fileName4, personsFile4;
+          personsFile4 = document.getElementById("personsFile4");
+          _name4 = personsFile4.value;
+          _fileName4 = _name4.substring(_name4.lastIndexOf(".") + 1).toLowerCase();
+          if (_fileName4 !== "png" && _fileName4 !== "jpg" && _fileName4 !== "gif" && _fileName4 !== "jpeg" && _fileName4 !== "bmp") {
+            alert("上传图片格式不正确，请重新上传");
+            return false;
+          }
+          if ($scope.attachmentsChange.length >= 3) {
+            alert("最多上传3张图");
+            return false;
+          }
+          file[0].name ? putform4() : alert('未选中');
+        }
+}
+$scope.urlid = "";
+$scope.picsImgsArr = [];
+var putform2 = function (data) {
+    var idname = '#form2';
+    $(idname).ajaxSubmit(function (resp) {
+        var responseResult = JSON.parse(resp);
+        $scope.picsRes = responseResult.content.id;
+        $scope.picsImgsArr.push($scope.picsRes);
+        // var size = $("#form2 input[type='file']")[0].files[0].size;
+        $scope.picNew2 = $("#form2 input[type='file']")[0].files[0].name.substring($("#form2 input[type='file']")[0].files[0].name.lastIndexOf('\\') + 1);
+        $scope.$apply(function () {
+            $scope.attachments.push({
+                "url": responseResult.content.url,
+            })
+            $scope.picNew2 = "";
+            alert("上传成功！");
+        });
+        console.log($scope.attachments);
+    }).submit(function () {
+        return false;
+    });
+};
+
+  $scope.picsImgsArrChange = [];
+  var putform4 = function (data) {
+    var idnameChange = '#form4';
+    $(idnameChange).ajaxSubmit(function (resp) {
+      var responseResult = JSON.parse(resp);
+      $scope.picsResChange = responseResult.content.id;
+      $scope.picsImgsArrChange.push($scope.picsResChange);
+      // var size = $("#form2 input[type='file']")[0].files[0].size;
+      $scope.picNew4 = $("#form4 input[type='file']")[0].files[0].name.substring($("#form4 input[type='file']")[0].files[0].name.lastIndexOf('\\') + 1);
+      $scope.$apply(function () {
+        $scope.attachmentsChange.push({
+          "url": responseResult.content.url,
+        })
+        $scope.picNew4 = "";
+        alert("上传成功！");
+      });
+      console.log($scope.attachmentsChange);
+    }).submit(function () {
+      return false;
+    });
+  };
+
+
+$scope.delImg = function (index, num) {
+  if(num === 1){
+    $scope.attachments.splice(index, 1);
+    $scope.picsImgsArr.splice(index, 1);
+  }else if(num === 2){
+    $scope.attachmentsChange.splice(index,1);
+    $scope.picsImgsArrChange.splice(index,1);
+  }
+}
+//上传图片结束
+
+
+  $scope.returnChangeCount = function (count, num) {
+    if(num === 1) {
+      if(/\D/.test(count)){
+        alert('只能输入整数')
+        $scope.backGoods.goodsCount = "";
+        return false;
+      }else if($scope.backGoods.goodsCount > $scope.surplusCount) {
+        alert("超出剩余退货数量，请重新填写!")
+        $scope.backGoods.goodsCount = "";
+      }
+    } else if (num === 2) {
+      if(/\D/.test(count)){
+        alert('只能输入整数')
+        $scope.changeGoods.goodsCount = "";
+        return false;
+      }else if($scope.changeGoods.goodsCount > $scope.surplusCount) {
+        alert("超出剩余换货数量，请重新填写!")
+        $scope.changeGoods.goodsCount = "";
+      }
+    }
+  }
+  
+          returnChangeCountService.get({
+          orderid:shop.orderid,
+          goodsid:shop.goodsid
+        },function(resp){
+            console.log(resp);
+            if(!resp.code){
+              $scope.surplusCount = resp.content.remainNum;
+              $("#myModalback").modal("show");
+            }else{
+              alert(resp.message)
+            }
+          },function(err){
+            console.log(err);
+          })
+
+http://test.jiucaiyun.cn/ip/myorder/refundsOrder/refundsSave
+http://test.jiucaiyun.cn/ip/myorder/changesOrder/changesSave
+
+
+    DownLoadFile({
+      url: murl.orignite.monthlySummaryListExport,
+      data: JSON.stringify(canshu)
+    });
+
+    function DownLoadFile(options) {
+      var config = {method: 'get'};
+      var $iframe = $('<iframe id="down-file-iframe" />');
+      var $form = $('<form target="down-file-iframe" method="' + config.method + '" />');
+      $(document.body).append($iframe);
+      $iframe.append($form);
+      $form.attr('action', options.url);
+      $form.append("<input type='hidden' name='exportData' value='" + options.data + "' />");
+      $form[0].submit();
+      $iframe.remove();
+    }
+	
+	
+reqdata () {
+	let _this = this
+	let obj = {
+		'filters': [
+			{
+				'key': 'code',
+				'opt': 'LIKE',
+				'type': 'S',
+				'value': ''
+			},
+			{
+				'key': 'shortname',
+				'opt': 'LIKE',
+				'type': 's',
+				'value': this.clientName
+			}],
+			'logic': 'AND',
+			'orderby': '',
+			'pageNum': this.page.pageNum,
+			'pageSize': this.page.pageSize,
+			'sort': 'ASC'
+	}
+	clientListService.getAllClient(obj) 
+	.then((resp, data) => {
+		if (resp.status === '200') {
+			if (resp.data) {
+				_this.page.totalCount = resp.data.total
+				if (resp.data.total > 0) {
+					_this.page.paginationShow = true
+				}
+				_this.tableData3 = resp.data.list
+			}
+		}
+	}).catch ((err) => {
+		console.log(err)
+	})
+}
+
+
+<html><head lang="en"><meta charset="UTF-8"><title></title><style>.image{margin: 10px;width: 200px;height: 200px;display: none;
+}.time{margin: 10px;    font-size: 200px;color: red;
+}</style></head><body>![](http://upload-images.jianshu.io/upload_images/2011313-6952b2e445095ac6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)    <div class="time">10</div>
+    <script>
+    //根据类名取到对应的标签
+    var image = document.getElementsByClassName('image')[0];    var time = document.getElementsByClassName('time')[0];    
+    var timer= setInterval(function(){    //innerHTML是指标签的内部内容
+    time.innerHTML = time.innerHTML - 1;    if(time.innerHTML == 0){
+        clearInterval(timer);
+        time.style.display = 'none'
+        image.style.display = 'inline-block';
+    }
+},1000)    </script>
+    </body>
+    </html>
+	
+	selectChange (val) {
+		let arr = []
+		val.forEach(function(item){
+			arr.push(item.id)
+		})
+		this.slectItems = arr;
+		this.activeNum = this.selectItems.length
+	}
+
+<link rel="stylesheet" href="../../navigation/css/nav.css">
+<script src="../../lib/rightToolbar/rightToolbar.js"></script>
+<script src="../../navigation/js/nav.js"></script>
+
+,'right.toolbar'
+
+<right-toolbar ></right-toolbar>
+
+    <link rel="stylesheet" href="../../lib/font/css/font-awesome.min.css">
+	
+	
+
+        .con_gm .ninebot-bg:hover img { 
+                margin-left: -15px; 
+                position: relative; 
+                -webkit-transition: all .4s ease-out; 
+                -moz-transition: all .4s ease-out; 
+                -ms-transition: all .4s ease-out; 
+                -o-transition: all .4s ease-out; 
+                transition: all .4s ease-out; 
+                z-index:1; 
+            } 
+
+    function getRootPath_web() {
+        //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+        var curWwwPath = window.document.location.href;
+        //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName);
+        //获取主机地址，如： http://localhost:8083
+        var localhostPaht = curWwwPath.substring(0, pos);
+        //获取带"/"的项目名，如：/uimcardprj
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        return (localhostPaht + projectName);
+    }
+	
+	 GetAllEmployee()
+      var canshu = {
+        "attr": {
+          "userid": $scope.userId
+        },
+        "filters": [
+          {
+            "key": "FTNPFirstCategoryCode",
+            "opt": "LIKE",
+            "type": "S",
+            "value": $scope.search.brandType == "all" ? "" : $scope.search.brandType,
+          },
+          {
+            "key": "shelvesdatestart",
+            "opt": "LIKE",
+            "type": "S",
+            "value": $scope.search.startTime ? $scope.search.startTime : "",
+          },
+          {
+                    "key": "requirement_creation_date",
+                    "opt": "LE",
+                    "type": "S",
+                    "value": max_requirement_creation_date
+                },{
+                    "key": "requirement_creation_date",
+                    "opt": "GE",
+                    "type": "S",
+                    "value": min_requirement_creation_date
+                }
+        ],
+        "logic": "and"
+      };
+      DownLoadFile({
+        url: murl.orignite.groundingExportService,
+        data: JSON.stringify(canshu)
+      });
+
+      function DownLoadFile(options) {
+        var config = {method: 'get'};
+        var $iframe = $('<iframe id="down-file-iframe" />');
+        var $form = $('<form target="down-file-iframe" method="' + config.method + '" />');
+        $(document.body).append($iframe);
+        $iframe.append($form);
+        $form.attr('action', options.url);
+        $form.append("<input type='hidden' name='exportData' value='" + options.data + "' />");
+        $form[0].submit();
+        $iframe.remove();
+      }
+	  
+	          var data = {
+            "attr": {},
+            "filters": [
+                {
+                    "key": "purchase_requirement_odd_number",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.purchase_requirement_odd_number
+                },{
+                    "key": "requirement_creation_date",
+                    "opt": "LE",
+                    "type": "S",
+                    "value": max_requirement_creation_date
+                },{
+                    "key": "requirement_creation_date",
+                    "opt": "GE",
+                    "type": "S",
+                    "value": min_requirement_creation_date
+                },{
+                    "key": "demand_reporting_department",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.demand_reporting_department
+                },{
+                    "key": "goodscode",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.goodscode
+                },{
+                    "key": " goodsname",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.goodsname
+                },{
+                    "key": "demand_quantity",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.demand_quantity
+                },{
+                    "key": "purchase_order_number",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.purchase_order_number
+                },{
+                    "key": "goodscategoryname",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.goodscategoryname
+                },{
+                    "key": "jd_order_number",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.jd_order_number
+                },{
+                    "key": "type",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.type
+                },{
+                    "key": "order_creation_time",
+                    "opt": "LE",
+                    "type": "S",
+                    "value": max_order_creation_time
+                },{
+                    "key": "order_creation_time",
+                    "opt": "GE",
+                    "type": "S",
+                    "value": min_order_creation_time
+                },{
+                    "key": "order_approval_time",
+                    "opt": "LE",
+                    "type": "S",
+                    "value": max_order_approval_time
+                },{
+                    "key": "order_approval_time",
+                    "opt": "GE",
+                    "type": "S",
+                    "value": min_order_approval_time
+                },{
+                    "key": "confirm_delivery_time",
+                    "opt": "LE",
+                    "type": "S",
+                    "value":max_confirm_delivery_time
+                },{
+                    "key": "confirm_delivery_time",
+                    "opt": "GE",
+                    "type": "S",
+                    "value":min_confirm_delivery_time
+                },{
+                    "key": " confirm_payment_time",
+                    "opt": "LE",
+                    "type": "S",
+                    "value":max_confirm_payment_time
+                },{
+                    "key": " confirm_payment_time",
+                    "opt": "GE",
+                    "type": "S",
+                    "value":min_confirm_payment_time
+                },{
+                    "key": "order_status",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.order_status
+                },{
+                    "key": "buyer",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.buyer
+                },{
+                    "key": "company_code",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.company_code
+                },{
+                    "key": "company_code_description",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.company_code_description
+                },{
+                    "key": "factory",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.factory
+                },{
+                    "key": " factory_name",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.factory_name
+                },{
+                    "key": " purchasing_org",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.purchasing_org
+                },{
+                    "key": " purchasing_group",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.purchasing_group
+                },{
+                    "key": " purchasing_quantity",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.purchasing_quantity
+                },{
+                    "key": " unit_price",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.unit_price
+                },{
+                    "key": " tax_code",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.tax_code
+                },{
+                    "key": " tax_rate",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.tax_rate
+                },{
+                    "key": " total_amount",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.total_amount
+                },{
+                    "key": " return_odd_number",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.return_odd_number
+                },{
+                    "key": " return_quantity",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.return_quantity
+                },{
+                    "key": "  return_amount",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.return_amount
+                },{
+                    "key": "  exchange_order_number",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.exchange_order_number
+                },{
+                    "key": "  exchange_quantity",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value":$scope.exchange_quantity
+                },{
+                    "key": "  exchange_amount",
+                    "opt": "LIKE",
+                    "type": "S",
+                    "value": $scope.exchange_amount
+                }
+            ],
+            "logic": "",
+            "orderby": "",
+            "pageNum": 0,
+            "pageSize": 0,
+            "sort": ""
+        }
+		
+		
+		this.formData.goodslist[this.operateIndex]={...this.formData.goodslist[this.operateIndex],name:this.goodsData.name,stosum:sum,count:Stock}
+		
+	
+	
+	
+	name
+	goodsid
+	goodsnum
+	brand
+	model
+	hsprice
+	bhsprice
+	supplierid
+	supplier
+	currency
+	count
+	totalprice
+	accountnumber
+	password
+	computertype
+	pn
+	sn
+	fixedassetnumber
+	mac
+	diskpass
+	biospass
+	hostname
+	cpu
+	memory
+	hdd
+	monitor
+	cd
+	
+	getFormateDate(new Date(), 'yyyy-MM-dd')
+	
+editRow (index, row) {
+      console.log(index, row.tendernum)
+      this.$router.push({path: 'bidAdd', query: {supplierId: row.tendernum}})
+    },
+	
+	   console.log(this.$route.query.supplierId)
+	    this.$route.push({name: 'bidAdd'})
+	
+	
+	      for (let i = 0; i < this.tableList.length; i++) {
+        if (this.tableList[i].goodsname === '') {
+          this.$message(`第 ${i + 1} 行，请选择采购订单商品`)
+          return false
+        }
+      }
+	  
+	   getDate() {
+      let d = new Date()
+      let M1 = d.getMonth() + 1
+      let Month2 = M1 > 9 ? M1 : '0' + M1
+      let getDate = d.getDate()
+      let Month3 = getDate > 9 ? getDate : '0' + getDate
+      let M = d.getMinutes()
+      let Minutes = M > 9 ? M : '0' + M
+      this.form.inquirydate = d.getFullYear() + '-' + (Month2) + '-' + (Month3) + ' ' + d.getHours() + ':' + Minutes
+    }
+	
+	    if(GetQueryString('type') == 'yes'){
+        $scope.typeReadyonly = true;
+        $scope.isHide = true;
+        $scope.isHides=false;
+        $scope.isXG = true;
+
+    }else if(GetQueryString('type') == 'no'){
+        $scope.typeReadyonly = true;
+        $scope.isHide = false;
+        $scope.isHides=false;
+        $scope.isXG = false;
+
+    }else if(GetQueryString('type') == 'editor'){
+        $scope.typeReadyonly = false;
+        $scope.isHide = true;
+        $scope.isHides=true;
+        $scope.isXG = false;
+    }
+	
+	updateContent 741
+	myDel 718
+	cateMy 3605
+	addCart3 937
+	
+	
+	
+	
+	下订单 btn 全部显示 发票信息可以修改
+	草稿箱 btn  只显示提交订单 发票信息可以修改 
+	我的订单中 编辑  只显示提交订单 且 发票信息不可修改
+	查看详情  不显示 btn  且发票信息不可修改 
+	
+goodstotalhsprice 小计含税   goodsTable
+totalhsprice 商品总金额 good
+rmbtotalhsprice 应付总额 good
+
+我的订单 详情  status='detail'
+退回状态 编辑（再来一单） status='recur'
+草稿箱 编辑 status='editor'
+电商退回 编辑  status='recur'
+购物车 采购下单  status=''
+
+
+FTNPThreeCategoryName
+applyuser
+goodsotherrequire
+ids
+isdrafts
+
+requirementer：test02
+requirementername:工程师(test02)
+
+costcenter: null
+costfactor: null
+/[\-\_\,\.\!\|\~\`\(\)\#\@\%\-\+\=\/\'\$\%\^\&\*\{\}\:\;\"\L\<\>\?\\]/g
+
+
+
+buy_list      /goodsmanage/MyGoodsStock    商品名称有代码出现
+
+
+/pageConfiguration/cart/list?userid=test02
+
+totalhsprice
+todayhsprice
+todayCount
+uploadgoodscount
+
+。basic
+fullname
+establishmentdate
+detailaddress
+companyprofile
+
+
+。contacter
+contact
+phone
+
+bankAccount.depositbank
+bankAccount.name
+bankAccount.account
+bankAccount.accountname
