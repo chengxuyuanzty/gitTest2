@@ -543,6 +543,43 @@ arr.slice(-3,-1); // 倒序索引6开始，倒数第3个元素开始，不包括最后一个元素
  
 (2)?["E", "F"]//控制台输出
 -------------------------------------------------------------------------------
+<input  @keydown="checkInput($event)" type="number">
+checkInput(e){
+  let prohibitInput= ["-", "e", "+", "E"];
+  if(prohibitInput.includes(e.key)){
+    e.preventDefault();
+  }
+}
+//输入纯数字
+<input  type="text" @input = "msg=msg.replace(/[^\d]/g,'')" v-model="msg">
+
+在input属性上加上:
+onKeypress=”return (/[\d]/.test(String.fromCharCode(event.keyCode)))”
+-------------------------------------------------------------------------------
+var deepCopy = function(o) {
+    if (o instanceof Array) {  //先判断Array
+        var n = [];
+        for (var i = 0; i < o.length; ++i) {
+            n[i] = deepCopy(o[i]);
+        }
+        return n;
+
+    } else if (o instanceof Object) {
+        var n = {}
+        for (var i in o) {
+            n[i] = deepCopy(o[i]);
+        }
+        return n;
+    } else {
+        return o;
+    }
+}
+在JS里，除Array和Object之外的数据类型的复制可以直接通过等号=来实现，但Array和Object类型的数据通过等号只是起引用作用，指向的是同一块内存地址。当源数据改变，引用的数据也同时会发生变化。
+
+
+
+
+------------------------------------------------------------------------------
 git config --global user.name ""
 git config --global user.email ""
 

@@ -1,0 +1,88 @@
+1.初始化vue项目，引入插件
+	element-ui  import 'element-ui/lib/theme-chalk/index.css'
+	axios
+	sass
+	echarts
+	vuex
+2.vue中的指令
+	v-model、v-if、v-else、v-show、v-on、v-bind、v-for、v-text、v-html
+	v-on:click="methods" ----> @click="methods"
+	v-bind:class="classA classB" ----> :class="xx xxx"
+	v-bind:class="[classA, a ? classB : classC]"
+	v-bind:class="{classA: true, classB: true, classC: false}"
+	v-for="(item, index) in list" :key="index"  为什么绑定key属性 -->https://segmentfault.com/a/1190000013810844
+	v-text、v-html 很少使用
+3.vue的生命周期
+	1. 在beforeCreate和created钩子函数之间的生命周期
+		初始化事件，进行数据的观测
+	2.在created的时候数据已经和data属性进行了绑定
+	3.created钩子函数和beforeMount间的生命周期
+		编译加载dom（虚拟）
+	4.beforeMount和mounted 钩子函数间的生命周期
+		给vue实例对象添加$el成员，给dom绑定数据中
+	5.mounted数据绑定完成
+	6.beforeUpdate钩子函数和updated钩子函数间的生命周期
+		当vue发现data中的数据发生了改变，会触发对应组件的重新渲染
+	7.beforeDestroy和destroyed钩子函数间的生命周期
+		beforeDestroy钩子函数在实例销毁之前调用。在这一步，实例仍然完全可用。
+		destroyed钩子函数在Vue 实例销毁后调用。调用后，Vue 实例指示的所有东
+		西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+		
+4.vue的监听属性
+	1.watch对应一个对象，键是观察表达式，值是对应回调。值也可以是对象。
+	watch: {
+	    msg (newVal, oldVal) {
+	        //......
+	   }
+	}
+	immediate为true就会立即先去执行里面的handler方法。
+	deep的意思就是深入观察，监听器会一层层的往下遍历，给对象的所有属性都加上这个监听器。
+	watch: {
+	    msg : {
+	        handler (newVal, oldVal) {
+	            //......
+	        },
+	        immediate: true,
+	        deep: true
+	   }
+	}
+	2.computed用来监控自己定义的变量，该变量不在data里面声明，直接在computed里面定义，
+	然后就可以在页面上进行双向数据
+	computed : {
+	        currentDate () {
+		return new Date()
+	        }
+	}
+	
+5.axios
+
+6.路由钩子函数
+	在路由跳转的时候，我们需要一些权限判断或者其他操作。这个时候就需要使用路由的钩子函数。
+	router.beforeEach((to, from, next) => {}/*在跳转之前执行*/
+	router.afterEach(function(to,form))/*在跳转之后判断*/
+7.路由传参
+	传递参数：用$router
+	接受参数：用$route，注意少个r
+	三种方式：
+		1.路由配置
+		2.通过路由属性中的name来确定匹配的路由，通过params来传递参数
+		3.使用path来匹配路由，然后通过query来传递参数
+	
+8.filter
+
+9.directive
+	bind指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+	inserted被绑定元素插入父节点时调用
+	参数：el：指令所绑定的元素，可以用来直接操作 DOM 。binding、vnode、oldVnode
+
+10.vuex状态管理
+	state 只进行数据的设置，取值不用this.$store.state
+	getters 只用来取值，不进行任何值的变化的操作
+	mutations 是vuex中唯一进行数据修改的地方,调用mutations需要用到commit
+	actions 可以通过actions进行异步操作的处理
+
+11.踏坑之旅
+	1.vue检测不到通过索引改变数据和数组长度的变化
+		解决方案 Vue.set( target, key, value )
+	2.计算属性computed监听不到本地存储的变化
+		解决方案 增加一个data下面的属性，通过控制其的变化来触发函数
