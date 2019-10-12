@@ -577,6 +577,39 @@ var deepCopy = function(o) {
 在JS里，除Array和Object之外的数据类型的复制可以直接通过等号=来实现，但Array和Object类型的数据通过等号只是起引用作用，指向的是同一块内存地址。当源数据改变，引用的数据也同时会发生变化。
 
 
+function removeRepetition(str){
+        var result="";
+        len=str.length;    //一定要现将str的长度先取出来，因为在循环的时候每次切割字符串是会改变字符串长度的
+        for(var i=0 ; i<len;i++){
+            if(str[0]==str[1]){
+                str=str.slice(1);
+            }else{
+                result=result+str[0];
+                str=str.slice(1);
+            }
+        }
+        return result;
+    }
+// 测试用例
+
+
+console.log(removeRepetition("aaa")); // ->a
+console.log(removeRepetition("abbba")); // ->aba
+console.log(removeRepetition("aabbaabb")); // ->abab
+console.log(removeRepetition("")); // ->
+console.log(removeRepetition("abc")); // ->abc
+console.log(removeRepetition("aaaaaaaaaaaabsssssssssssssscddddddddddddddddd")); // ->abc
+
+
+  filters: {
+    ellipsis (value) {
+      if (!value) return ''
+      if (value.length > 80) {
+        return value.slice(0, 80) + '...'
+      }
+      return value
+    }
+  },
 
 
 ------------------------------------------------------------------------------
