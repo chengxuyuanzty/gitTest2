@@ -1,3 +1,10 @@
+奇数行：:class="{'active':index%2 != 1}"
+偶数行：:class="{'active':index%2 != 0}"
+            <img
+              :src="items.url ? items.url : require('../../assets/img/default.png')"
+              @click="toGoodsDetail(items)"
+            >
+
 :page-sizes="[5, 8, 10]"  //这是下拉框可以选择的，每选择一行，要展示多少内容
 
 :page-size="pagesize"         //显示当前页的条数
