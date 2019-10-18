@@ -669,15 +669,7 @@ git add index/
 git add index/index.html
 
 一些自动生成的，比如日志文件，或者编译过程中创建的临时文件等，不需要纳入 Git 的管理，在这种情况下，我们可以创建一个名为 .gitignore 的文件，来跳过上传。
-
-
-
 --------------------------------------------------------------------------------
-
-
-npm i -g cnpm --registry=https://registry.npm.taobao.org
-
-
 https://github.com/MrZHLF/vue-admin-system
 
 vscode  snippet设置自动生成vue组件代码块
