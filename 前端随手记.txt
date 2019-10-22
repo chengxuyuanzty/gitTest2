@@ -617,7 +617,13 @@ console.log(removeRepetition("aaaaaaaaaaaabsssssssssssssscddddddddddddddddd")); 
     }
   },
 
+const {loading, toast=loading} = config
+½âÎö£ºvar loading = config.loading,
+          _config$toast = config.totast,
+         toast = _config$toast === undefined ? loading : _config$toast; 
 
+È¥ÖØÅÅÐò
+ console.log([...new Set(materialclassifyArr)].sort((a, b) => a < b ? -1 : 1), 'materialclassify')
 ------------------------------------------------------------------------------
 git config --global user.name ""
 git config --global user.email ""
