@@ -616,6 +616,73 @@ console.log(removeRepetition("aaaaaaaaaaaabsssssssssssssscddddddddddddddddd")); 
       return value
     }
   },
+  filters: {
+    formatStatus (val) {
+      return val === '1' ? '好评' : val === '2' ? '中评' : val === '3' ? '差评' : ''
+    }
+  },
+//保留小数点后两位的过滤器，尾数四舍五入
+filters: {
+  numFilter (value) {
+    let realVal = ''
+    if (value) {
+      // 截取当前数据到小数点后两位
+      realVal = parseFloat(value).toFixed(2)
+    } else {
+      realVal = '--'
+    }
+    return realVal
+  }
+}
+保留小数点后两位的过滤器，尾数不四舍五入
+filters: {
+  numFilter (value) {
+    let realVal = ''
+    if (value) {
+      // 截取当前数据到小数点后三位
+      let tempVal = parseFloat(value).toFixed(3)
+      realVal = tempVal.substring(0, tempVal.length - 1)
+    } else {
+      realVal = '--'
+    }
+    return realVal
+  }
+}
+-------------------------------------------------
+vue 自定义过滤器 格式化金额（保留两位小数）
+import Vue from 'vue'
+
+Vue.filter('money', function(val) {
+    val = val.toString().replace(/\$|\,/g,'');
+    if(isNaN(val)) {
+      val = "0";  
+    } 
+    let sign = (val == (val = Math.abs(val)));
+    val = Math.floor(val*100+0.50000000001);
+    let cents = val%100;
+    val = Math.floor(val/100).toString();
+    if(cents<10) {
+       cents = "0" + cents
+    }
+    for (var i = 0; i < Math.floor((val.length-(1+i))/3); i++) {
+        val = val.substring(0,val.length-(4*i+3))+',' + val.substring(val.length-(4*i+3));
+    }
+
+    return (((sign)?'':'-') + val + '.' + cents);
+})
+
+
+// 给数字加千位分隔符
+Vue.filter('formateNumber', function (val) {
+  let result
+  if (typeof val === 'number') {
+    result = val
+  } else if (typeof val === 'string') {
+    result = parseFloat(val)
+  }
+  return result && result.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+})
+------------------------------------------
 
 const {loading, toast=loading} = config
 解析：var loading = config.loading,
