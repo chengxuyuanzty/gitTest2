@@ -27,6 +27,36 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+-----------------------------------------------------------
+<span class="other">其他<i class="el-icon-arrow-down el-icon--right icon-arrow"/></span>
+.icon-arrow{
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+  }
+  .other:hover .icon-arrow{
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+}
+
+<div class="rotate">rotate</div>
+.rotate {
+        width: 100px;
+        height: 100px;
+        background-color: #92B901;
+        -webkit-transition:-webkit-transform 2s;
+       }
+ 
+       .rotate:hover {
+        -webkit-transform:rotate(360deg);
+       }
+————————————————
+版权声明：本文为CSDN博主「marsur」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/marsur/article/details/99674010
 ---------------------------------------------------------
 　　正则表达式验证6到10个字符串或数字的长度： ^[a-zA-Z0-9]{6,10}$
 　　验证数字的正则表达式
