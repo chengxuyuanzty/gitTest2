@@ -27,6 +27,13 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+---------------------------------------------------------------
+http://www.shsfhb?session="634fg3456fdg45"
+ var sessioncookie = window.location.href.split('?session=')
+        if (sessioncookie[1]) {
+            // 把session赋值给cookie(按自己公司的要求拼接字符串)
+            document.cookie = 'GW_SESSION=' + sessioncookie[1] + ';path=/'
+ }
 -----------------------------------------------------------
 <span class="other">其他<i class="el-icon-arrow-down el-icon--right icon-arrow"/></span>
 .icon-arrow{
