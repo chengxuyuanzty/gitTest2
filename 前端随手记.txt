@@ -1,3 +1,5 @@
+空格占位符 &#12288;&#12288;
+
 奇数行：:class="{'active':index%2 != 1}"
 偶数行：:class="{'active':index%2 != 0}"
             <img
@@ -27,6 +29,20 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+--------------------------------------------------------------
+过滤数据
+computed:{
+        filteredTableData: function () {
+          var type = this.currentType;
+          return this.tableData.filter(function (data) {
+            if(type == '全部'|| type == '' ){
+              return true
+            }else{
+              return data.type == type
+            }
+          })
+        }
+    },
 ---------------------------------------------------------------
     saveTable (item, index) {
       let hintInfo = {
