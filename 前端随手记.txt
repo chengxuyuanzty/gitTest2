@@ -30,6 +30,24 @@ handleCurrentChange: function(currentPage){
          console.log(this.currentPage)  //点击第几页
         },
 --------------------------------------------------------------
+vue中有个style有时候会加个scoped属性来防止在单页面下样式污染，但是这个也会出现一个问题，就是有时候我们引用mint-ui或者element-ui的时候会出现写的样式不起作用，其实我们可以简单加个/deep/或>>>就可以解决这个问题
+/deep/ 只能用在less或sass中使用
+>>> 只能在css中使用，less,sass都不可用
+解决tooltip溢出不美观问题
+<style  lang="css">
+.el-tooltip__popper  {
+  max-width: 30%;
+  line-height: 30px;
+}
+</style>
+--------------------------------------------------------------
+  filters: {
+      keepTwoNum(value){
+        value = Number(value);
+        return value.toFixed(2)
+      }
+    },
+
 过滤数据
 computed:{
         filteredTableData: function () {
