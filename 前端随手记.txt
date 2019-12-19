@@ -29,6 +29,102 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+----------------------------------------------------------------
+var arr3 = [
+  {
+    "k": "机身颜色",
+    "selected": ["红色","黑色"]
+  },
+  {
+    "k": "内存",
+    "selected": ["8GB","6GB"]
+  },
+  {
+    "k": "机身存储",
+    "selected": ["64GB","256GB"]
+  }
+]
+
+var result = arr3.reduce((last, spec) => {
+    var arr = [];
+    // last：上次运算结果
+    // el：数组中的当前元素
+    last.forEach(o => {
+        spec.selected.forEach(option => {
+            var obj = {};
+           Object.assign(obj,o);
+          obj[spec.k] = option;
+          arr.push(obj)
+        })
+    })
+    return arr
+},[{}]);
+
+console.log(result);
+--------------------------------------------------------------
+正则表达式
+//注：这里我限制了4到30个字符<br>var str = "再找找(asdf)"
+var reg = /^[A-Za-z0-9-\(\)\u4e00-\u9fa5]{4,30}$/;
+if (!reg.test(str)) {
+    alert("验证不通过");
+} else {
+    alert("验证通过");
+}
+
+
+<script type="text/javascript">
+var str="123{xxxx}456[我的]789123[你的]456(1389090)789";
+var regex1 = /\((.+?)\)/g;  // () 小括号
+var regex2 = /\[(.+?)\]/g;  // [] 中括号
+var regex3 = /\{(.+?)\}/g; // {} 花括号，大括号
+// 输出是一个数组
+console.log(str.match(regex1)); 
+console.log(str.match(regex2));
+console.log(str.match(regex3));
+</script>
+var str = '张三(zhang.san)';
+var regex1 = /\((.+?)\)/g;
+console.log(str.match(regex1))
+["(zhang.san)"]
+
+
+
+vara='中国111111111111大中国222222222大中国'
+varpat=/中国(.*?)大中国/i;
+varstr='中国111111111111大中国222222222大中国';
+console.info(str.match(pat)[0])//中国111111111111大中国
+console.info(str.match(pat)[1])//111111111111
+
+/** 判断字符串中的括号是否对应**/
+
+function bracketsJudge(str){
+var arr = str.split("");
+num=0;
+for(let i=0;i<arr.length;i++){
+if(arr[i]==="("){
+num ++
+}else if(arr[i]===")"){
+num --
+if(num<0){
+console.log("不合法")
+return false;
+}
+}
+}
+return num
+}
+
+/*JS中字符串中带有括号，正则不能识别的解决办法*/
+
+var str = "阿里巴巴(中国)网络技术有限公司深圳办事处";//字符串
+ 
+var keyword = "阿里巴巴(中国)网络技术有限公司";//关键词
+ 
+var reg =keyword .replace(/\(/g,"\\(").replace(/\)/g,"\\)");//针对搜索关键词中有括号的情况，先将括号转换成正则能识别的字符串
+ 
+str = str .replace(new RegExp(reg,'g'),'<i class="txtred">'+keyword+'</i>');//将字符串中包括的关键词高亮显示
+
+
 --------------------------------------------------------------
 vue中有个style有时候会加个scoped属性来防止在单页面下样式污染，但是这个也会出现一个问题，就是有时候我们引用mint-ui或者element-ui的时候会出现写的样式不起作用，其实我们可以简单加个/deep/或>>>就可以解决这个问题
 /deep/ 只能用在less或sass中使用
