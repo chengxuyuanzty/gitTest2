@@ -29,6 +29,76 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+    // 税率加百分号
+    testCoverages(data) {
+      let str = data.replace(/%/g, '')//去除重复添加%
+      str += '%'
+      if (!data) return false
+      this.$set(this.manageLists, 'taxrate', str)
+    },
+---------------------------------------------------------------------
+Array.of()方法
+用于将一组值，转换为数组
+console.log(Array.of(1,2,3)); //[1, 2, 3]
+--------------------------------------------------------------------
+Array.from（）
+如果参数是一个真正的数组，Array.from()会返回一个一模一样的新数组
+Array.from()可以接受第二个参数，用来对每个元素进行处理然后放入返回的数组之中
+Array.from()的另一个应用是，将字符串转化成数组，然后返回字符串的长度
+因为它能够正确处理各种Unicode字符，可以避JavaScript将大于\uFFFF的Unicode字符算成两个字符的bug
+function countSymbols(string) {
+  return Array.from(string).length;
+}
+var obj = {0:1,1:2,2:3,length:3};
+var arr = Array.from(obj,x => x*x);
+console.log(arr);
+
+
+let myArray = {'0':'a','1':'b','2':'c',length:3};
+let arr = Array.from(myArray);//用于将类数组和可遍历的对象转换为真正的数组
+console.log(arr);  //["a", "b", "c"]
+--------------------------------------------------------------------
+console.log(...[1, 2, 3]); // 1 2 3
+------------------------------------------------------------------
+//常规的
+for(let itme of arr){
+    console.log(itme)
+}
+//我只要key
+for(let itme of arr.keys()){
+    console.log(itme)
+}
+//我要键值成对儿的，
+for(let itme of arr.entries()){
+    console.log(itme)
+}
+//键值由我控制，想要就要不要就不要
+ for(let [index,val] of arr.entries()){
+    console.log(index+':'+val)
+}
+------------------------------------------------------------------
+//过滤金额保留两位小数
+export const money = function (val) {
+   val = val.toString().replace(/\$|\,/g, '');
+   if (isNaN(val)) {
+     val = "0";
+   }
+   let sign = (val == (val = Math.abs(val)));
+   val = Math.floor(val * 100 + 0.50000000001);
+   let cents = val % 100;
+   val = Math.floor(val / 100).toString();
+   if (cents < 10) {
+     cents = "0" + cents
+   }
+   for (var i = 0; i < Math.floor((val.length - (1 + i)) / 3); i++) {
+     val = val.substring(0, val.length - (4 * i + 3)) + ',' + val.substring(val.length - (4 * i + 3));
+   }
+
+   return (((sign) ? '' : '-') + val + '.' + cents);
+}
 ----------------------------------------------------------------
 var arr3 = [
   {
@@ -387,9 +457,7 @@ http://www.shsfhb?session="634fg3456fdg45"
        .rotate:hover {
         -webkit-transform:rotate(360deg);
        }
-————————————————
-版权声明：本文为CSDN博主「marsur」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/marsur/article/details/99674010
+---------------------------------------------------------
 ---------------------------------------------------------
 　　正则表达式验证6到10个字符串或数字的长度： ^[a-zA-Z0-9]{6,10}$
 　　验证数字的正则表达式
