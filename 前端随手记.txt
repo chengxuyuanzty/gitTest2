@@ -1,5 +1,7 @@
 空格占位符 &#12288;&#12288;
 
+moment.js 处理日期类库
+
 奇数行：:class="{'active':index%2 != 1}"
 偶数行：:class="{'active':index%2 != 0}"
             <img
@@ -30,7 +32,126 @@ handleCurrentChange: function(currentPage){
          console.log(this.currentPage)  //点击第几页
         },
 ----------------------------------------------------------------------
+js将两个一维数组组成一个键值对的对象
+var arr = ["a", "b", "c"];
+var brr = [1, 2, 3];
+var obj = {};
+for (var i = 0; i < arr.length; i++) {
+    obj[arr[i]] = brr[i]
+}
+console.log(obj) //{ a: 1, b: 2, c: 3 }
+ 
+ 
+function transformObject(keyArr,valueArr) {
+    var obj = {};
+    keyArr.map( (v,i) => {
+        obj[keyArr[i]] = valueArr[i];
+    })
+    return obj;
+}
+----------------------------------------------------------------------
+过滤格式化日期
+  filters: {
+    formatDate: function(value) {
+      let date = new Date(value)
+      let y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? '0' + MM : MM
+      let d = date.getDate()
+      d = d < 10 ? '0' + d : d
+      let h = date.getHours()
+      h = h < 10 ? '0' + h : h
+      let m = date.getMinutes()
+      m = m < 10 ? '0' + m : m
+      let s = date.getSeconds()
+      s = s < 10 ? '0' + s : s
+      return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+    }
+  },
+----------------------------------------------------------------------
+                <el-table-column
+                  type="selection"
+                  :selectable="selectable"
+                  width="55">
+                </el-table-column>
+    // 判断table selected是否可以选中
+    selectable(row, index) {
+      if (row.state === '待发货') {
+        return true
+      } else {
+        return false
+      }
+    },
+----------------------------------------------------------------------
+var s='efsd/sdfsd/sdfdsf/sdf';
 
+var name=s.substring(s.lastIndexOf("/")+1);
+
+console.log(name);//sdf
+
+lastIndexOf()字符从右向左首次出现位置索引；
+
+IndexOf()字符从左向右首次出现位置索引；
+-----------------------------------------------------
+去除最后一个逗号
+var str="1,1,2,2,3，“；
+str = str.substr(0,str.length-1);
+-----------------------------------
+var str = "/asdasf/asfaewf/agaegr/trer/rhh";
+
+var index = str .lastIndexOf("\/");  
+str  = str .substring(index + 1, str .length);
+alert(str );
+----------------------------------------------------------------------
+<el-input-number v-model="cycle" @change="vaidateCycle" :min="1" :max="3600"></el-input-number>
+vaidateCycle () {
+	let re = /^[0-9]+$/
+	if (!re.test(this.cycle)) {
+		this.$message.error('请输入1~3600之间的正整数！')
+		this.$nextTick(() => {
+			this.cycle = parseInt(this.cycle)
+        })
+	}
+}
+----------------------------------------------------------------------
+/**
+ * 将"2018-05-19T08:04:52.000+0000"这种格式的时间转化为正常格式
+ * @param time
+ */
+function timeFormat(time) {
+    var d = new Date(time);
+ 
+    var year = d.getFullYear();       //年  
+    var month = d.getMonth() + 1;     //月  
+    var day = d.getDate();            //日  
+ 
+    var hh = d.getHours();            //时  
+    var mm = d.getMinutes();          //分  
+    var ss = d.getSeconds();           //秒  
+ 
+    var clock = year + "/";
+ 
+    if (month < 10)
+        clock += "0";
+ 
+    clock += month + "/";
+ 
+    if (day < 10)
+        clock += "0";
+ 
+    clock += day + " ";
+ 
+    if (hh < 10)
+        clock += "0";
+ 
+    clock += hh + ":";
+    if (mm < 10) clock += '0';
+    clock += mm + ":";
+ 
+    if (ss < 10) clock += '0';
+    clock += ss;
+    return (clock);
+}
 ----------------------------------------------------------------------
     // 税率加百分号
     testCoverages(data) {

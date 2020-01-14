@@ -1,0 +1,1553 @@
+{
+	"checkedMenuList": [{
+		"name": "home",
+		"path": "/",
+		"meta": {
+			"title": "首页",
+			"icon": "el-icon-s-home",
+			"isNav": true
+		},
+		"redirect": "/mall",
+		"children": [{
+			"name": "homeMall",
+			"path": "/mall",
+			"meta": {
+				"title": "商城首页",
+				"isNav": true,
+				"buttons": [{
+					"title": "购物车",
+					"isShow": true
+				}, {
+					"title": "我的收藏",
+					"isShow": true
+				}, {
+					"title": "首页设置",
+					"isShow": true
+				}]
+			},
+			"title": "商城首页",
+			"id": "商城首页"
+		}, {
+			"name": "buyList",
+			"path": "/buy_list",
+			"meta": {
+				"title": "在售商品",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]				
+			},
+			"title": "在售商品",
+			"id": "在售商品"
+		}, {
+			"name": "shoppingDetail",
+			"path": "/shopping_detail",
+			"meta": {
+				"title": "商品详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]
+			},
+			"title": "商品详情",
+			"id": "商品详情"
+		}, {
+			"name": "exShoppingDetail",
+			"path": "/ex_shopping_detail",
+			"meta": {
+				"title": "电商商品详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]				
+			},
+			"title": "电商商品详情",
+			"id": "电商商品详情"
+		}, {
+			"name": "homeCollectList",
+			"path": "/collect_list",
+			"meta": {
+				"title": "收藏夹",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]								
+			},
+			"title": "收藏夹",
+			"id": "收藏夹"
+		}, {
+			"name": "homeMallSetting",
+			"path": "/mall_setting",
+			"meta": {
+				"title": "商城首页配置",
+				"isNav": false
+			},
+			"title": "商城首页配置",
+			"id": "商城首页配置"
+		}, {
+			"name": "shoppingCart",
+			"path": "/shopping_cart",
+			"meta": {
+				"title": "购物车",
+				"isNav": false,
+				"buttons": [{
+					"title": "结算",
+					"isShow": true
+				}]
+			},
+			"title": "购物车",
+			"id": "购物车"
+		}],
+		"title": "首页",
+		"id": "首页"
+	}, {
+		"name": "orders",
+		"path": "/orders",
+		"meta": {
+			"title": "订单管理",
+			"icon": "el-icon-tickets",
+			"isNav": true
+		},
+		"redirect": "/orders/my_order",
+		"children": [{
+			"name": "myOrder",
+			"path": "/orders/my_order",
+			"meta": {
+				"title": "我的订单",
+				"isNav": true,
+				"buttons": [{
+					"title": "商品评价",
+					"isShow": true
+				},{
+					"title": "再来一单",
+					"isShow": true
+				},{
+					"title": "申请换货",
+					"isShow": true
+				}]
+			},
+			"title": "我的订单",
+			"id": "我的订单"
+		}, {
+			"name": "receiverOrder",
+			"path": "/orders/receiver_order",
+			"meta": {
+				"title": "收货单",
+				"isNav": true
+			},
+			"title": "收货单",
+			"id": "收货单"
+		},{
+			"name": "changeOrder",
+			"path": "/orders/change_order",
+			"meta": {
+				"title": "换货单",
+				"isNav": true,
+				"buttons": [{
+					"title": "取消换货",
+					"isShow": true
+				},{
+					"title": "收到换货",
+					"isShow": true
+				}]				
+			},
+			"title": "换货单",
+			"id": "换货单"
+		},{
+			"name": "afterSaleDetail",
+			"path": "/orders/after_sale_detail",
+			"meta": {
+				"title": "售后记录详情",
+				"isNav": false
+			},
+			"title": "售后记录详情",
+			"id": "售后记录详情"
+		}, {
+			"name": "dirsirReturn",
+			"path": "/orders/dirsir_return",
+			"meta": {
+				"title": "京东退回订单",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}]				
+			},
+			"title": "京东退回订单",
+			"id": "京东退回订单"
+		}, {
+			"name": "requisition",
+			"path": "/orders/requisition",
+			"meta": {
+				"title": "需求申请单",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]
+			},
+			"title": "需求申请单",
+			"id": "需求申请单"
+		}, {
+			"name": "requisitionDetail",
+			"path": "/orders/requisitionDetail",
+			"meta": {
+				"title": "需求单订单详情",
+				"isNav": false
+			},
+			"title": "需求单订单详情",
+			"id": "需求单订单详情"
+		}, {
+			"name": "goodsEvaluation",
+			"path": "/orders/goods_evaluation",
+			"meta": {
+				"title": "商品评价",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交评价",
+					"isShow": true
+				}]				
+			},
+			"title": "商品评价",
+			"id": "商品评价"
+		}, {
+			"name": "bulkOrder",
+			"path": "/orders/bulk_order",
+			"meta": {
+				"title": "批量下单",
+				"isNav": true,
+				"buttons": [{
+					"title": "批量结算",
+					"isShow": true
+				}]
+			},
+			"title": "批量下单",
+			"id": "批量下单"
+		},{
+			"name": "manageAddress",
+			"path": "/orders/manage_address",
+			"meta": {
+				"title": "收货地址&开票信息",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				},{
+					"title":"编辑",
+					"isShow":true
+				},{
+					"title":"设为默认",
+					"isShow":true
+				},{
+					"title":"删除",
+					"isShow":true
+				}]				
+			},
+			"title": "收货地址&开票信息",
+			"id": "收货地址&开票信息"
+		}, {
+			"name": "applyChange",
+			"path": "/orders/apply_change",
+			"meta": {
+				"title": "申请换货",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]								
+			},
+			"title": "申请换货",
+			"id": "申请换货"
+		},{
+			"name": "applyChangeDetail",
+			"path": "/orders/apply_change_detail",
+			"meta": {
+				"title": "查看换货详情",
+				"isNav": false
+			},
+			"title": "查看换货详情",
+			"id": "查看换货详情"
+		}],
+		"title": "订单管理",
+		"id": "订单管理"
+	}, {
+		"name": "goods",
+		"path": "/goods",
+		"meta": {
+			"title": "商品管理",
+			"icon": "el-icon-goods",
+			"isNav": true
+		},
+		"redirect": "/goods/no_jd_goods",
+		"children": [{
+			"name": "goodsType",
+			"path": "goods_type",
+			"meta": {
+				"title": "物资分类管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增分类",
+					"isShow": true
+				}, {
+					"title": "编辑分类",
+					"isShow": true
+				}, {
+					"title": "删除分类",
+					"isShow": true
+				}]
+			},
+			"title": "物资分类管理",
+			"id": "物资分类管理"
+		}, {
+			"name": "goodsNoJd",
+			"path": "/goods/no_jd_goods",
+			"meta": {
+				"title": "非京东库",
+				"isNav": true,
+				"buttons": [{
+					"title": "模板下载",
+					"isShow": true
+				}, {
+					"title": "批量上传",
+					"isShow": true
+				}, {
+					"title": "新增",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "上架",
+					"isShow": true
+				}, {
+					"title": "下架",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "非京东库",
+			"id": "非京东库"
+		}, {
+			"name": "goodsNoJdAdd",
+			"path": "/goods/no_jd_goods_add",
+			"meta": {
+				"title": "新增页面",
+				"isNav": false,
+				"buttons": [{
+					"title": "保存",
+					"isShow": true
+				}]				
+			},
+			"title": "新增页面",
+			"id": "新增页面"
+		}, {
+			"name": "goodsNoJdEditor",
+			"path": "/goods/no_jd_goods_add",
+			"meta": {
+				"title": "编辑页面",
+				"isNav": false,
+				"buttons": [{
+					"title": "保存",
+					"isShow": true
+				}]				
+			},
+			"title": "编辑页面",
+			"id": "编辑页面"
+		}, {
+			"name": "goodsJd",
+			"path": "/goods/jd_goods",
+			"meta": {
+				"title": "京东商品库",
+				"isNav": true
+			},
+			"title": "京东商品库",
+			"id": "京东商品库"
+		}, {
+			"name": "goodsSaleStorage",
+			"path": "/goods/ex_sale_storage",
+			"meta": {
+				"title": "联电京东库",
+				"isNav": true,
+				"buttons": [{
+					"title": "已提交商品",
+					"isShow": true
+				}, {
+					"title": "上架",
+					"isShow": true
+				}, {
+					"title": "下架",
+					"isShow": true
+				}]
+			},
+			"title": "联电京东库",
+			"id": "联电京东库"
+		}, {
+			"name": "receiveAddress",
+			"path": "/goods/receive_address",
+			"meta": {
+				"title": "商品操作日志",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "商品操作日志",
+			"id": "商品操作日志"
+		}, {
+			"name": "saleManage",
+			"path": "/goods/sale_manage",
+			"meta": {
+				"title": "汇率管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增",
+					"isShow": true
+				},{
+					"title": "修改",
+					"isShow": true
+				}]
+			},
+			"title": "汇率管理",
+			"id": "汇率管理"
+		}, {
+			"name": "taxManage",
+			"path": "/goods/tax_manage",
+			"meta": {
+				"title": "税率管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增",
+					"isShow": true
+				},{
+					"title": "修改",
+					"isShow": true
+				}]
+			},
+			"title": "税率管理",
+			"id": "税率管理"
+		}, {
+			"name": "historyPrice",
+			"path": "/goods/history_price",
+			"meta": {
+				"title": "查看历史价格",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出excel",
+					"isShow": true
+				}]
+			},
+			"title": "查看历史价格",
+			"id": "查看历史价格"
+		}, {
+			"name": "goodsAddJd",
+			"path": "/goods/add_jd",
+			"meta": {
+				"title": "商品选购",
+				"isNav": false,
+				"buttons": [{
+					"title": "选择商品",
+					"isShow": true
+				}, {
+					"title": "提交",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}, {
+					"title": "保存",
+					"isShow": true
+				}, {
+					"title": "批量导入",
+					"isShow": true
+				}, {
+					"title": "模板导出",
+					"isShow": true
+				}]
+			},
+			"title": "商品选购",
+			"id": "商品选购"
+		}, {
+			"name": "goodsExSubmitList",
+			"path": "/goods/ex_submit_list",
+			"meta": {
+				"title": "已提交商品",
+				"isNav": false,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "已提交商品",
+			"id": "已提交商品"
+		}],
+		"title": "商品管理",
+		"id": "商品管理"
+	}, {
+		"name": "supplier",
+		"path": "/supplier",
+		"meta": {
+			"title": "供应商管理",
+			"icon": "el-icon-bell",
+			"isNav": true
+		},
+		"redirect": "/supplier/list",
+		"children": [{
+			"name": "supplierList",
+			"path": "/supplier/list",
+			"meta": {
+				"title": "供应商列表",
+				"isNav": true,
+				"buttons": [{
+					"title": "供应商录入",
+					"isShow": true
+				}, {
+					"title": "查看详情",
+					"isShow": true
+				}]
+			},
+			"title": "供应商列表",
+			"id": "供应商列表"
+		}, {
+			"name": "supplierDetail",
+			"path": "/supplier/detail",
+			"meta": {
+				"title": "供应商详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]
+			},
+			"title": "供应商详情",
+			"id": "供应商详情"
+		}],
+		"title": "供应商管理",
+		"id": "供应商管理"
+	}, {
+		"name": "charts",
+		"path": "/charts",
+		"meta": {
+			"title": "业务报表",
+			"icon": "el-icon-document",
+			"isNav": true
+		},
+		"redirect": "/charts/order_summary",
+		"children": [{
+			"name": "chartsOrderSummary",
+			"path": "/charts/order_summary",
+			"meta": {
+				"title": "订单汇总",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "订单汇总",
+			"id": "订单汇总"
+		}, {
+			"name": "chartsRemind",
+			"path": "/charts/remind",
+			"meta": {
+				"title": "到期提醒",
+				"isNav": true
+			},
+			"title": "到期提醒",
+			"id": "到期提醒"
+		}, {
+			"name": "saleVolumeList",
+			"path": "/charts/sale_volumeList",
+			"meta": {
+				"title": "销量统计",
+				"isNav": true,
+				"buttons": [{
+					"title": "首页显示",
+					"isShow": true
+				}]
+			},
+			"title": "销量统计",
+			"id": "销量统计"
+		}, {
+			"name": "workTogather",
+			"path": "/charts/work_togather",
+			"meta": {
+				"title": "业务汇总",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]				
+			},
+			"title": "业务汇总",
+			"id": "业务汇总"
+		}, {
+			"name": "chartsMonthCharts",
+			"path": "/charts/month_charts",
+			"meta": {
+				"title": "月结单报表",
+				"isNav": true,
+				"buttons": [{
+					"title": "对账信息获取",
+					"isShow": true
+				}, {
+					"title": "付款码导出",
+					"isShow": true
+				}, {
+					"title": "付款码模板导出",
+					"isShow": true
+				}, {
+					"title": "付款码导入",
+					"isShow": true
+				}, {
+					"title": "对账确认",
+					"isShow": true
+				}, {
+					"title": "加入开票清单",
+					"isShow": true
+				}, {
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "月结单报表",
+			"id": "月结单报表"
+		}, {
+			"name": "chartsWaitTickets",
+			"path": "/charts/wait_tickets",
+			"meta": {
+				"title": "待开票清单",
+				"isNav": false,
+				"buttons": [{
+					"title": "开票",
+					"isShow": true
+				}]
+			},
+			"title": "待开票清单",
+			"id": "待开票清单"
+		}],
+		"title": "业务报表",
+		"id": "业务报表"
+	}, {
+		"name": "system",
+		"path": "/system",
+		"meta": {
+			"title": "系统管理",
+			"icon": "el-icon-setting",
+			"isNav": true
+		},
+		"redirect": "/system/module",
+		"children": [{
+			"name": "systemRole",
+			"path": "/system/role",
+			"meta": {
+				"title": "角色",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "权限",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}, {
+					"title": "添加成员",
+					"isShow": true
+				}, {
+					"title": "删除成员",
+					"isShow": true
+				}]
+			},
+			"title": "角色",
+			"id": "角色"
+		}, {
+			"name": "systemCheckPerson",
+			"path": "/system/check_person",
+			"meta": {
+				"title": "对账人员设置",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "对账人员设置",
+			"id": "对账人员设置"
+		}, {
+			"name": "systemNeedTable",
+			"path": "/system/need_table",
+			"meta": {
+				"title": "需求关系流转表",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "需求关系流转表",
+			"id": "需求关系流转表"
+		}, {
+			"name": "systemWrongOrder",
+			"path": "/system/wrong_order",
+			"meta": {
+				"title": "错误订单处理",
+				"isNav": true,
+				"buttons": [{
+					"title": "终止订单",
+					"isShow": true
+				}]
+			},
+			"title": "错误订单处理",
+			"id": "错误订单处理"
+		}, {
+			"name": "ledgerAccount",
+			"path": "/system/ledger_account",
+			"meta": {
+				"title": "总账科目",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "总账科目",
+			"id": "总账科目"
+		}],
+		"title": "系统管理",
+		"id": "系统管理"
+	}, {
+		"name": "technical",
+		"path": "/technical",
+		"meta": {
+			"title": "技术支持",
+			"icon": "el-icon-service",
+			"isNav": true
+		},
+		"redirect": "/technical/technical_support",
+		"children": [{
+			"name": "technicalSupport",
+			"path": "/technical/technical_support",
+			"meta": {
+				"title": "技术支持",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "附件上传",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "技术支持",
+			"id": "技术支持"
+		}],
+		"title": "技术支持",
+		"id": "技术支持"
+	}],
+	"checkedMenuKeyList": ["首页", "商城首页", "在售商品", "商品详情", "电商商品详情", "收藏夹", "商城首页配置", "购物车", "订单管理", "我的订单", "收货单","换货单", "售后记录详情", "京东退回订单", "需求申请单", "需求单订单详情", "商品评价", "批量下单","收货地址&开票信息","申请换货","查看换货详情", "商品管理", "物资分类管理", "非京东库", "新增页面", "编辑页面", "京东商品库", "联电京东库", "商品操作日志", "汇率管理", "税率管理", "查看历史价格","商品选购", "已提交商品", "供应商管理", "供应商列表", "供应商详情", "业务报表", "订单汇总", "到期提醒", "销量统计", "业务汇总", "月结单报表", "待开票清单","系统管理", "角色", "对账人员设置", "需求关系流转表", "错误订单处理", "总账科目", "技术支持", "技术支持"],
+	"checkedAllMenuKeyList": ["首页", "商城首页", "在售商品", "商品详情", "电商商品详情", "收藏夹", "商城首页配置", "购物车", "订单管理", "我的订单", "收货单","换货单", "售后记录详情", "京东退回订单", "需求申请单", "需求单订单详情", "商品评价", "批量下单", "收货地址&开票信息","申请换货","查看换货详情", "商品管理", "物资分类管理", "非京东库", "新增页面", "编辑页面", "京东商品库", "联电京东库", "商品操作日志", "汇率管理", "税率管理", "查看历史价格","商品选购", "已提交商品", "供应商管理", "供应商列表", "供应商详情", "业务报表", "订单汇总", "到期提醒", "销量统计", "业务汇总", "月结单报表", "待开票清单","系统管理",  "角色", "对账人员设置", "需求关系流转表", "错误订单处理", "总账科目", "技术支持", "技术支持"
+	],
+	"allMenuList": [{
+		"name": "home",
+		"path": "/",
+		"meta": {
+			"title": "首页",
+			"icon": "el-icon-s-home",
+			"isNav": true
+		},
+		"redirect": "/mall",
+		"children": [{
+			"name": "homeMall",
+			"path": "/mall",
+			"meta": {
+				"title": "商城首页",
+				"isNav": true,
+				"buttons": [{
+					"title": "购物车",
+					"isShow": true
+				}, {
+					"title": "我的收藏",
+					"isShow": true
+				}, {
+					"title": "首页设置",
+					"isShow": true
+				}]
+			},
+			"title": "商城首页",
+			"id": "商城首页"
+		}, {
+			"name": "buyList",
+			"path": "/buy_list",
+			"meta": {
+				"title": "在售商品",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]				
+			},
+			"title": "在售商品",
+			"id": "在售商品"
+		}, {
+			"name": "shoppingDetail",
+			"path": "/shopping_detail",
+			"meta": {
+				"title": "商品详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]
+			},
+			"title": "商品详情",
+			"id": "商品详情"
+		}, {
+			"name": "exShoppingDetail",
+			"path": "/ex_shopping_detail",
+			"meta": {
+				"title": "电商商品详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]				
+			},
+			"title": "电商商品详情",
+			"id": "电商商品详情"
+		}, {
+			"name": "homeCollectList",
+			"path": "/collect_list",
+			"meta": {
+				"title": "收藏夹",
+				"isNav": false,
+				"buttons": [{
+					"title": "加入购物车",
+					"isShow": true
+				}]								
+			},
+			"title": "收藏夹",
+			"id": "收藏夹"
+		}, {
+			"name": "homeMallSetting",
+			"path": "/mall_setting",
+			"meta": {
+				"title": "商城首页配置",
+				"isNav": false
+			},
+			"title": "商城首页配置",
+			"id": "商城首页配置"
+		}, {
+			"name": "shoppingCart",
+			"path": "/shopping_cart",
+			"meta": {
+				"title": "购物车",
+				"isNav": false,
+				"buttons": [{
+					"title": "结算",
+					"isShow": true
+				}]
+			},
+			"title": "购物车",
+			"id": "购物车"
+		}],
+		"title": "首页",
+		"id": "首页"
+	}, {
+		"name": "orders",
+		"path": "/orders",
+		"meta": {
+			"title": "订单管理",
+			"icon": "el-icon-tickets",
+			"isNav": true
+		},
+		"redirect": "/orders/my_order",
+		"children": [{
+			"name": "myOrder",
+			"path": "/orders/my_order",
+			"meta": {
+				"title": "我的订单",
+				"isNav": true,
+				"buttons": [{
+					"title": "商品评价",
+					"isShow": true
+				},{
+					"title": "再来一单",
+					"isShow": true
+				},{
+					"title": "申请换货",
+					"isShow": true
+				}]
+			},
+			"title": "我的订单",
+			"id": "我的订单"
+		}, {
+			"name": "receiverOrder",
+			"path": "/orders/receiver_order",
+			"meta": {
+				"title": "收货单",
+				"isNav": true
+			},
+			"title": "收货单",
+			"id": "收货单"
+		},{
+			"name": "changeOrder",
+			"path": "/orders/change_order",
+			"meta": {
+				"title": "换货单",
+				"isNav": true,
+				"buttons": [{
+					"title": "取消换货",
+					"isShow": true
+				},{
+					"title": "收到换货",
+					"isShow": true
+				}]								
+			},
+			"title": "换货单",
+			"id": "换货单"
+		},{
+			"name": "afterSaleDetail",
+			"path": "/orders/after_sale_detail",
+			"meta": {
+				"title": "售后记录详情",
+				"isNav": false
+			},
+			"title": "售后记录详情",
+			"id": "售后记录详情"
+		}, {
+			"name": "dirsirReturn",
+			"path": "/orders/dirsir_return",
+			"meta": {
+				"title": "京东退回订单",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}]				
+			},
+			"title": "京东退回订单",
+			"id": "京东退回订单"
+		}, {
+			"name": "requisition",
+			"path": "/orders/requisition",
+			"meta": {
+				"title": "需求申请单",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]
+			},
+			"title": "需求申请单",
+			"id": "需求申请单"
+		}, {
+			"name": "requisitionDetail",
+			"path": "/orders/requisitionDetail",
+			"meta": {
+				"title": "需求单订单详情",
+				"isNav": false
+			},
+			"title": "需求单订单详情",
+			"id": "需求单订单详情"
+		}, {
+			"name": "goodsEvaluation",
+			"path": "/orders/goods_evaluation",
+			"meta": {
+				"title": "商品评价",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交评价",
+					"isShow": true
+				}]				
+			},
+			"title": "商品评价",
+			"id": "商品评价"
+		}, {
+			"name": "bulkOrder",
+			"path": "/orders/bulk_order",
+			"meta": {
+				"title": "批量下单",
+				"isNav": true,
+				"buttons": [{
+					"title": "批量结算",
+					"isShow": true
+				}]
+			},
+			"title": "批量下单",
+			"id": "批量下单"
+		},{
+			"name": "manageAddress",
+			"path": "/orders/manage_address",
+			"meta": {
+				"title": "收货地址&开票信息",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				},{
+					"title":"编辑",
+					"isShow":true
+				},{
+					"title":"设为默认",
+					"isShow":true
+				},{
+					"title":"删除",
+					"isShow":true
+				}]				
+			},
+			"title": "收货地址&开票信息",
+			"id": "收货地址&开票信息"
+		}, {
+			"name": "applyChange",
+			"path": "/orders/apply_change",
+			"meta": {
+				"title": "申请换货",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]								
+			},
+			"title": "申请换货",
+			"id": "申请换货"
+		},{
+			"name": "applyChangeDetail",
+			"path": "/orders/apply_change_detail",
+			"meta": {
+				"title": "查看换货详情",
+				"isNav": false
+			},
+			"title": "查看换货详情",
+			"id": "查看换货详情"
+		}],
+		"title": "订单管理",
+		"id": "订单管理"
+	}, {
+		"name": "goods",
+		"path": "/goods",
+		"meta": {
+			"title": "商品管理",
+			"icon": "el-icon-goods",
+			"isNav": true
+		},
+		"redirect": "/goods/no_jd_goods",
+		"children": [{
+			"name": "goodsType",
+			"path": "goods_type",
+			"meta": {
+				"title": "物资分类管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增分类",
+					"isShow": true
+				}, {
+					"title": "编辑分类",
+					"isShow": true
+				}, {
+					"title": "删除分类",
+					"isShow": true
+				}]
+			},
+			"title": "物资分类管理",
+			"id": "物资分类管理"
+		}, {
+			"name": "goodsNoJd",
+			"path": "/goods/no_jd_goods",
+			"meta": {
+				"title": "非京东库",
+				"isNav": true,
+				"buttons": [{
+					"title": "模板下载",
+					"isShow": true
+				}, {
+					"title": "批量上传",
+					"isShow": true
+				}, {
+					"title": "新增",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "上架",
+					"isShow": true
+				}, {
+					"title": "下架",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "非京东库",
+			"id": "非京东库"
+		}, {
+			"name": "goodsNoJdAdd",
+			"path": "/goods/no_jd_goods_add",
+			"meta": {
+				"title": "新增页面",
+				"isNav": false,
+				"buttons": [{
+					"title": "保存",
+					"isShow": true
+				}]				
+			},
+			"title": "新增页面",
+			"id": "新增页面"
+		}, {
+			"name": "goodsNoJdEditor",
+			"path": "/goods/no_jd_goods_add",
+			"meta": {
+				"title": "编辑页面",
+				"isNav": false,
+				"buttons": [{
+					"title": "保存",
+					"isShow": true
+				}]				
+			},
+			"title": "编辑页面",
+			"id": "编辑页面"
+		}, {
+			"name": "goodsJd",
+			"path": "/goods/jd_goods",
+			"meta": {
+				"title": "京东商品库",
+				"isNav": true
+			},
+			"title": "京东商品库",
+			"id": "京东商品库"
+		}, {
+			"name": "goodsSaleStorage",
+			"path": "/goods/ex_sale_storage",
+			"meta": {
+				"title": "联电京东库",
+				"isNav": true,
+				"buttons": [{
+					"title": "已提交商品",
+					"isShow": true
+				}, {
+					"title": "上架",
+					"isShow": true
+				}, {
+					"title": "下架",
+					"isShow": true
+				}]
+			},
+			"title": "联电京东库",
+			"id": "联电京东库"
+		}, {
+			"name": "receiveAddress",
+			"path": "/goods/receive_address",
+			"meta": {
+				"title": "商品操作日志",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "商品操作日志",
+			"id": "商品操作日志"
+		}, {
+			"name": "saleManage",
+			"path": "/goods/sale_manage",
+			"meta": {
+				"title": "汇率管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增",
+					"isShow": true
+				},{
+					"title": "修改",
+					"isShow": true
+				}]
+			},
+			"title": "汇率管理",
+			"id": "汇率管理"
+		}, {
+			"name": "taxManage",
+			"path": "/goods/tax_manage",
+			"meta": {
+				"title": "税率管理",
+				"isNav": true,
+				"buttons": [{
+					"title": "新增",
+					"isShow": true
+				},{
+					"title": "修改",
+					"isShow": true
+				}]
+			},
+			"title": "税率管理",
+			"id": "税率管理"
+		}, {
+			"name": "historyPrice",
+			"path": "/goods/history_price",
+			"meta": {
+				"title": "查看历史价格",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出excel",
+					"isShow": true
+				}]
+			},
+			"title": "查看历史价格",
+			"id": "查看历史价格"
+		}, {
+			"name": "goodsAddJd",
+			"path": "/goods/add_jd",
+			"meta": {
+				"title": "商品选购",
+				"isNav": false,
+				"buttons": [{
+					"title": "选择商品",
+					"isShow": true
+				}, {
+					"title": "提交",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}, {
+					"title": "保存",
+					"isShow": true
+				}, {
+					"title": "批量导入",
+					"isShow": true
+				}, {
+					"title": "模板导出",
+					"isShow": true
+				}]
+			},
+			"title": "商品选购",
+			"id": "商品选购"
+		}, {
+			"name": "goodsExSubmitList",
+			"path": "/goods/ex_submit_list",
+			"meta": {
+				"title": "已提交商品",
+				"isNav": false,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "已提交商品",
+			"id": "已提交商品"
+		}],
+		"title": "商品管理",
+		"id": "商品管理"
+	}, {
+		"name": "supplier",
+		"path": "/supplier",
+		"meta": {
+			"title": "供应商管理",
+			"icon": "el-icon-bell",
+			"isNav": true
+		},
+		"redirect": "/supplier/list",
+		"children": [{
+			"name": "supplierList",
+			"path": "/supplier/list",
+			"meta": {
+				"title": "供应商列表",
+				"isNav": true,
+				"buttons": [{
+					"title": "供应商录入",
+					"isShow": true
+				}, {
+					"title": "查看详情",
+					"isShow": true
+				}]
+			},
+			"title": "供应商列表",
+			"id": "供应商列表"
+		}, {
+			"name": "supplierDetail",
+			"path": "/supplier/detail",
+			"meta": {
+				"title": "供应商详情",
+				"isNav": false,
+				"buttons": [{
+					"title": "提交",
+					"isShow": true
+				}]
+			},
+			"title": "供应商详情",
+			"id": "供应商详情"
+		}],
+		"title": "供应商管理",
+		"id": "供应商管理"
+	}, {
+		"name": "charts",
+		"path": "/charts",
+		"meta": {
+			"title": "业务报表",
+			"icon": "el-icon-document",
+			"isNav": true
+		},
+		"redirect": "/charts/order_summary",
+		"children": [{
+			"name": "chartsOrderSummary",
+			"path": "/charts/order_summary",
+			"meta": {
+				"title": "订单汇总",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "订单汇总",
+			"id": "订单汇总"
+		}, {
+			"name": "chartsRemind",
+			"path": "/charts/remind",
+			"meta": {
+				"title": "到期提醒",
+				"isNav": true
+			},
+			"title": "到期提醒",
+			"id": "到期提醒"
+		}, {
+			"name": "saleVolumeList",
+			"path": "/charts/sale_volumeList",
+			"meta": {
+				"title": "销量统计",
+				"isNav": true,
+				"buttons": [{
+					"title": "首页显示",
+					"isShow": true
+				}]
+			},
+			"title": "销量统计",
+			"id": "销量统计"
+		}, {
+			"name": "workTogather",
+			"path": "/charts/work_togather",
+			"meta": {
+				"title": "业务汇总",
+				"isNav": true,
+				"buttons": [{
+					"title": "导出",
+					"isShow": true
+				}]				
+			},
+			"title": "业务汇总",
+			"id": "业务汇总"
+		}, {
+			"name": "chartsMonthCharts",
+			"path": "/charts/month_charts",
+			"meta": {
+				"title": "月结单报表",
+				"isNav": true,
+				"buttons": [{
+					"title": "对账信息获取",
+					"isShow": true
+				}, {
+					"title": "付款码导出",
+					"isShow": true
+				}, {
+					"title": "付款码模板导出",
+					"isShow": true
+				}, {
+					"title": "付款码导入",
+					"isShow": true
+				}, {
+					"title": "对账确认",
+					"isShow": true
+				}, {
+					"title": "加入开票清单",
+					"isShow": true
+				}, {
+					"title": "导出",
+					"isShow": true
+				}]
+			},
+			"title": "月结单报表",
+			"id": "月结单报表"
+		}, {
+			"name": "chartsWaitTickets",
+			"path": "/charts/wait_tickets",
+			"meta": {
+				"title": "待开票清单",
+				"isNav": false,
+				"buttons": [{
+					"title": "开票",
+					"isShow": true
+				}]
+			},
+			"title": "待开票清单",
+			"id": "待开票清单"
+		}],
+		"title": "业务报表",
+		"id": "业务报表"
+	}, {
+		"name": "system",
+		"path": "/system",
+		"meta": {
+			"title": "系统管理",
+			"icon": "el-icon-setting",
+			"isNav": true
+		},
+		"redirect": "/system/module",
+		"children": [{
+			"name": "systemRole",
+			"path": "/system/role",
+			"meta": {
+				"title": "角色",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "权限",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}, {
+					"title": "添加成员",
+					"isShow": true
+				}, {
+					"title": "删除成员",
+					"isShow": true
+				}]
+			},
+			"title": "角色",
+			"id": "角色"
+		}, {
+			"name": "systemCheckPerson",
+			"path": "/system/check_person",
+			"meta": {
+				"title": "对账人员设置",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "对账人员设置",
+			"id": "对账人员设置"
+		}, {
+			"name": "systemNeedTable",
+			"path": "/system/need_table",
+			"meta": {
+				"title": "需求关系流转表",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "需求关系流转表",
+			"id": "需求关系流转表"
+		}, {
+			"name": "systemWrongOrder",
+			"path": "/system/wrong_order",
+			"meta": {
+				"title": "错误订单处理",
+				"isNav": true,
+				"buttons": [{
+					"title": "终止订单",
+					"isShow": true
+				}]
+			},
+			"title": "错误订单处理",
+			"id": "错误订单处理"
+		}, {
+			"name": "ledgerAccount",
+			"path": "/system/ledger_account",
+			"meta": {
+				"title": "总账科目",
+				"isNav": true,
+				"buttons": [{
+					"title": "添加",
+					"isShow": true
+				}, {
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "总账科目",
+			"id": "总账科目"
+		}],
+		"title": "系统管理",
+		"id": "系统管理"
+	}, {
+		"name": "technical",
+		"path": "/technical",
+		"meta": {
+			"title": "技术支持",
+			"icon": "el-icon-service",
+			"isNav": true
+		},
+		"redirect": "/technical/technical_support",
+		"children": [{
+			"name": "technicalSupport",
+			"path": "/technical/technical_support",
+			"meta": {
+				"title": "技术支持",
+				"isNav": true,
+				"buttons": [{
+					"title": "编辑",
+					"isShow": true
+				}, {
+					"title": "附件上传",
+					"isShow": true
+				}, {
+					"title": "删除",
+					"isShow": true
+				}]
+			},
+			"title": "技术支持",
+			"id": "技术支持"
+		}],
+		"title": "技术支持",
+		"id": "技术支持"
+	}]
+}
