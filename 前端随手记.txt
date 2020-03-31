@@ -31,6 +31,12 @@ handleCurrentChange: function(currentPage){
         this.currentPage = currentPage;
          console.log(this.currentPage)  //点击第几页
         },
+
+10个数显示一行
+for (i=1;i<=100;i++){
+document.write(i,' ');
+if (i%10==0) document.write('<br>');
+}
 ----------------------------------------------------------------------
 js将两个一维数组组成一个键值对的对象
 var arr = ["a", "b", "c"];
